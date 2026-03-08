@@ -18,7 +18,7 @@ app.use('/discursantes', discursantesRouter);
 app.use('/discursos', discursosRouter);
 
 // SPA fallback: cualquier ruta no-API devuelve el index.html de React
-app.get('*', (req, res) => {
+app.get('{*path}', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
