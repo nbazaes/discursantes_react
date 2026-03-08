@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API = 'http://localhost:2501/discursantes';
+const API = '/discursantes';
 
 function Discursantes() {
   const [discursantes, setDiscursantes] = useState([]);

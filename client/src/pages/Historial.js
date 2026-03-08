@@ -6,7 +6,7 @@ function Historial() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:2501/discursos/domingos').then(res => {
+    axios.get('/discursos/domingos').then(res => {
       setDomingos(res.data);
       setLoading(false);
     }).catch(() => setLoading(false));
@@ -25,9 +25,9 @@ function Historial() {
   const eliminarDiscurso = async (id) => {
     if (!window.confirm('¿Eliminar este discurso?')) return;
     try {
-      await axios.delete(`http://localhost:2501/discursos/${id}`);
+      await axios.delete(`/discursos/${id}`);
       // Recargar
-      const res = await axios.get('http://localhost:2501/discursos/domingos');
+      const res = await axios.get('/discursos/domingos');
       setDomingos(res.data);
     } catch {
       alert('Error al eliminar');
