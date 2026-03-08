@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
-const API = '';
+const API = '/api';
 
 function SeleccionarDomingo() {
   const [discursantes, setDiscursantes] = useState([]);

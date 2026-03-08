@@ -6,7 +6,7 @@ function VerTemas() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/discursos/temas').then(res => {
+    axios.get('/api/discursos/temas').then(res => {
       setDiscursos(res.data);
       setLoading(false);
     }).catch(() => setLoading(false));

@@ -14,8 +14,8 @@ const db = require('./models');
 const discursantesRouter = require('./Discursantes');
 const discursosRouter = require('./Discursos');
 
-app.use('/discursantes', discursantesRouter);
-app.use('/discursos', discursosRouter);
+app.use('/api/discursantes', discursantesRouter);
+app.use('/api/discursos', discursosRouter);
 
 // SPA fallback: cualquier ruta no-API devuelve el index.html de React
 app.get('{*path}', (req, res) => {

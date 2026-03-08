@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API = '/discursantes';
+const API = '/api/discursantes';
 
 function Discursantes() {
   const [discursantes, setDiscursantes] = useState([]);
