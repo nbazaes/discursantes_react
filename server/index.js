@@ -24,8 +24,20 @@ app.get('{*path}', (req, res) => {
 
 const PORT = process.env.PORT || 2501;
 
+// Log de diagnóstico para Railway
+console.log('[DB Config] MYSQLHOST:', process.env.MYSQLHOST || '(no definida)');
+console.log('[DB Config] MYSQLDATABASE:', process.env.MYSQLDATABASE || '(no definida)');
+console.log('[DB Config] MYSQLPORT:', process.env.MYSQLPORT || '(no definida)');
+console.log('[DB Config] MYSQL_URL:', process.env.MYSQL_URL ? '(definida)' : '(no definida)');
+
 db.sequelize.sync().then(() => {
     app.listen(PORT, () => {
         console.log(`Servidor corriendo en puerto ${PORT}`);
+    });
+}).catch((err) => {
+    console.error('Error al conectar a la base de datos:', err.message);
+    // Arrancar el servidor de todas formas para que Railway no lo reinicie en loop
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en puerto ${PORT} (sin conexión a DB)`);
     });
 });
