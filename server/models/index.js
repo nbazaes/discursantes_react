@@ -10,10 +10,24 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (process.env.MYSQL_URL || process.env.DATABASE_URL) {
+  // Conexión vía URL completa (si existe la variable)
+  sequelize = new Sequelize(process.env.MYSQL_URL || process.env.DATABASE_URL, config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  // Conexión vía variables individuales (Railway MySQL las provee por defecto)
+  const dbConfig = {
+    database: process.env.MYSQLDATABASE || config.database,
+    username: process.env.MYSQLUSER     || config.username,
+    password: process.env.MYSQLPASSWORD || config.password,
+    host:     process.env.MYSQLHOST     || config.host,
+    port:     process.env.MYSQLPORT     || config.port || 3306,
+    dialect:  config.dialect || 'mysql',
+  };
+  sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+    host: dbConfig.host,
+    port: dbConfig.port,
+    dialect: dbConfig.dialect,
+  });
 }
 
 fs
