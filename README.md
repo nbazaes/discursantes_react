@@ -1,37 +1,37 @@
 # Discursantes
 
-## 📋 Descripción
-App web para gestionar y programar los discursantes dominicales de una congregación local.
+## Description
+Web app to manage and schedule Sunday speakers for a local congregation.
 
-## 🎯 El Problema
-Antes, la asignación de discursantes de la congregación se hacía manualmente en papel o Excel, lo que generaba duplicados, olvidos, consultas manuales y desorganización. Esta app centraliza todo en una plataforma única.
+## The Problem
+Before this app, assigning congregation speakers was done manually on paper or in Excel, which caused duplicates, missed assignments, manual lookups, and disorganization. This app centralizes everything in a single platform.
 
-## 🎨 Screenshots
-### Menú principal
-![Menú Principal](/screenshots/menu.png)
-### Módulo
-![Módulo](/screenshots/module.png)
+## Screenshots
+### Main menu
+![Main Menu](/screenshots/menu.png)
+### Module
+![Module](/screenshots/module.png)
 
-## 🛠 Stack Tecnológico
-- **Frontend:** React
-- **Backend:** Node.js + Express
-- **Base de datos:** MariaDB / MySQL
-- **Infraestructura:** Docker + Docker Compose
+## Tech Stack
+- Frontend: React
+- Backend: Node.js + Express
+- Database: MariaDB / MySQL
+- Infrastructure: Docker + Docker Compose
 
-## ✨ Funcionalidades Principales
-- ➕ Agregar y gestionar discursantes por domingo
-- 📅 Asignar fechas y temas
-- 📊 Ver historial de asignaciones
-- 🔔 Registro de discursantes y frecuencia
-- 💡 Sugerencias de discursantes por tiempo
+## Main Features
+- Add and manage speakers by Sunday
+- Assign dates and topics
+- View assignment history
+- Track speakers and speaking frequency
+- Speaker suggestions based on time since last talk
 
-## 🚀 Cómo Ejecutar Localmente
+## Run Locally
 
-### 🐳 Opción recomendada: Docker Compose (app + MySQL)
+### Recommended option: Docker Compose (app + MySQL)
 
-Levanta en conjunto:
-- backend + frontend empaquetados en una sola imagen (según `Dockerfile`)
-- base de datos MySQL 8
+Starts everything together:
+- backend + frontend packaged into a single image (according to the Dockerfile)
+- MySQL 8 database
 
 ```bash
 git clone <repo>
@@ -39,32 +39,32 @@ cd discursantes
 docker compose up --build
 ```
 
-La app quedará disponible en `http://localhost:2501`.
+The app will be available at `http://localhost:2501`.
 
-Para detener los servicios:
+To stop services:
 
 ```bash
 docker compose down
 ```
 
-Para detener y eliminar también el volumen de base de datos:
+To stop and also remove the database volume:
 
 ```bash
 docker compose down -v
 ```
 
-### Opción Docker (solo app)
+### Docker option (app only)
 
-Si ya tienes una base de datos externa, puedes correr solo la app:
+If you already have an external database, you can run only the app:
 
 ```bash
 docker build -t discursantes-app .
 docker run --rm -p 2501:2501 -e PORT=2501 discursantes-app
 ```
 
-### Opción desarrollo (sin Docker)
+### Development option (without Docker)
 
-Ejecuta backend y frontend por separado.
+Run backend and frontend separately.
 
 Backend:
 
@@ -79,13 +79,13 @@ Frontend:
 ```bash
 cd client
 npm install
-npm start
+npm run dev
 ```
 
-Por defecto, el frontend corre en `http://localhost:3000` y hace proxy al backend en `http://localhost:2501`.
+By default, the frontend runs at `http://localhost:3000` and proxies the backend at `http://localhost:2501`.
 
-## 📚 Lo que aprendí
-Con este proyecto resolví un problema real de mi congregación. Técnicamente, fue mi primer proyecto fullstack con React + Express en producción. Aprendí a contenerizar una app con Docker Compose, manejar una base de datos relacional con MariaDB, y diseñar una API REST desde cero. Si lo rehaciera, agregaría autenticación y notificaciones automáticas por email o WhatsApp.
+## What I Learned
+With this project, I solved a real problem in my congregation. Technically, it was my first fullstack project with React + Express in production. I learned how to containerize an app with Docker Compose, work with a relational database using MariaDB, and design a REST API from scratch. If I rebuilt it, I would add authentication and automatic notifications by email or WhatsApp.
 
-## Por desarrollar:
-Un aspecto que tiene espacio de mejora es el manejo de roles y usuarios. Al buscar una solución rápida para una congregación en específico la creé sin autenticación, pero el plan sería escalarlo a más congregaciones, por lo que requeriría un modelo multi-tenant con autenticación y roles por congregación.
+## Future Work
+One area with room for improvement is user and role management. Since I aimed for a quick solution for a specific congregation, I built it without authentication, but the plan is to scale it to more congregations, which would require a multi-tenant model with authentication and congregation-based roles.
