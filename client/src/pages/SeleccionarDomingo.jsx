@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const API = '/api';
 
 function SeleccionarDomingo() {
+  const { t, i18n } = useTranslation();
   const [discursantes, setDiscursantes] = useState([]);
   const [sugerencias, setSugerencias] = useState([]);
   const [fecha, setFecha] = useState('');
@@ -87,9 +89,9 @@ function SeleccionarDomingo() {
   };
 
   const guardar = async () => {
-    if (!fecha) { alert('Selecciona una fecha'); return; }
+    if (!fecha) { alert(t('sundayPage.dateRequired')); return; }
     const validos = entradas.filter(e => e.DiscursanteId && e.Tema.trim());
-    if (validos.length === 0) { alert('Agrega al menos un discursante con tema'); return; }
+    if (validos.length === 0) { alert(t('sundayPage.atLeastOne')); return; }
 
     setGuardando(true);
     try {
@@ -100,11 +102,11 @@ function SeleccionarDomingo() {
 
       if (modoEdicion) {
         await axios.put(`${API}/discursos/fecha/${fecha}`, { discursos });
-        setMensaje('¡Discursos actualizados correctamente!');
+        setMensaje(t('sundayPage.updateSuccess'));
       } else {
         const payload = discursos.map(d => ({ ...d, Fecha: fecha }));
         await axios.post(`${API}/discursos`, { discursos: payload });
-        setMensaje('¡Discursos guardados correctamente!');
+        setMensaje(t('sundayPage.saveSuccess'));
       }
 
       // Recargar
@@ -112,35 +114,36 @@ function SeleccionarDomingo() {
       const res = await axios.get(`${API}/discursantes/accion/sugerencia`);
       setSugerencias(res.data);
     } catch (err) {
-      alert('Error al guardar: ' + (err.response?.data?.error || err.message));
+      alert(t('sundayPage.saveError', { error: err.response?.data?.error || err.message }));
     }
     setGuardando(false);
   };
 
   const formatFecha = (f) => {
-    if (!f) return 'Nunca';
+    if (!f) return t('common.never');
     const d = new Date(f + 'T00:00:00');
-    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    const locale = i18n.resolvedLanguage?.startsWith('en') ? 'en-US' : 'es-ES';
+    return d.toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
   return (
     <div>
       <div className="page-header">
-        <h1>Seleccionar Discursantes para el Domingo</h1>
-        <p>Asigna quiénes van a hablar y sobre qué tema</p>
+        <h1>{t('sundayPage.title')}</h1>
+        <p>{t('sundayPage.subtitle')}</p>
       </div>
 
       {mensaje && (
         <div className="card" style={{ background: '#f0fff4', borderLeft: '4px solid #38a169' }}>
           <p style={{ color: '#276749', fontWeight: 600 }}>{mensaje}</p>
           <button className="btn btn-secondary btn-sm" onClick={() => setMensaje(null)} style={{ marginTop: '0.5rem' }}>
-            Cerrar
+            {t('common.close')}
           </button>
         </div>
       )}
 
       <div className="card">
-        <h2>📅 Fecha del Domingo</h2>
+        <h2>📅 {t('sundayPage.sundayDate')}</h2>
         <div className="domingo-header">
           <div className="form-group" style={{ margin: 0 }}>
             <input
@@ -151,15 +154,15 @@ function SeleccionarDomingo() {
               style={{ width: '250px' }}
             />
           </div>
-          {cargandoFecha && <span style={{ color: '#a0aec0' }}>Cargando...</span>}
+          {cargandoFecha && <span style={{ color: '#a0aec0' }}>{t('sundayPage.loadingDate')}</span>}
           {!cargandoFecha && modoEdicion && (
             <span className="badge badge-warning" style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem' }}>
-              ✏️ Editando domingo existente
+              ✏️ {t('sundayPage.editingExistingSunday')}
             </span>
           )}
           {!cargandoFecha && !modoEdicion && fecha && (
             <span className="badge badge-success" style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem' }}>
-              ✨ Nuevo domingo
+              ✨ {t('sundayPage.newSunday')}
             </span>
           )}
         </div>
@@ -167,9 +170,9 @@ function SeleccionarDomingo() {
 
       {/* Sugerencias */}
       <div className="card">
-        <h2>💡 Sugerencias (hace más tiempo sin hablar)</h2>
+        <h2>💡 {t('sundayPage.suggestionsTitle')}</h2>
         {sugerencias.length === 0 ? (
-          <p style={{ color: '#a0aec0' }}>No hay discursantes registrados</p>
+          <p style={{ color: '#a0aec0' }}>{t('sundayPage.noRegisteredSpeakers')}</p>
         ) : (
           <div className="sugerencia-list">
             {sugerencias.slice(0, 10).map(s => (
@@ -177,11 +180,11 @@ function SeleccionarDomingo() {
                 key={s.id}
                 className={`sugerencia-chip ${!s.ultimaFecha ? 'nunca' : ''}`}
                 onClick={() => agregarSugerido(s.id)}
-                title={s.ultimaFecha ? `Último: ${formatFecha(s.ultimaFecha)}` : 'Nunca ha hablado'}
+                title={s.ultimaFecha ? t('sundayPage.last', { date: formatFecha(s.ultimaFecha) }) : t('sundayPage.neverSpoken')}
               >
                 {s.Nombres} {s.Apellidos}
                 <small style={{ marginLeft: '0.3rem', opacity: 0.7 }}>
-                  {s.ultimaFecha ? formatFecha(s.ultimaFecha) : '(nunca)'}
+                  {s.ultimaFecha ? formatFecha(s.ultimaFecha) : t('sundayPage.neverTag')}
                 </small>
               </button>
             ))}
@@ -192,25 +195,25 @@ function SeleccionarDomingo() {
       {/* Entradas de discursantes */}
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h2 style={{ margin: 0, border: 'none', padding: 0 }}>Discursantes del Domingo</h2>
-          <button className="btn btn-success" onClick={agregarEntrada}>+ Agregar Discursante</button>
+          <h2 style={{ margin: 0, border: 'none', padding: 0 }}>{t('sundayPage.sundaySpeakers')}</h2>
+          <button className="btn btn-success" onClick={agregarEntrada}>+ {t('sundayPage.addSpeaker')}</button>
         </div>
 
         {entradas.length === 0 ? (
           <div className="empty-state" style={{ padding: '2rem' }}>
-            <p>Haz clic en una sugerencia o en "+ Agregar Discursante" para comenzar</p>
+            <p>{t('sundayPage.startHint')}</p>
           </div>
         ) : (
           entradas.map((entrada, idx) => (
             <div key={idx} className="domingo-entry">
               <div className="form-group" style={{ margin: 0 }}>
-                <label>Discursante</label>
+                <label>{t('sundayPage.selectSpeaker')}</label>
                 <select
                   className="form-control"
                   value={entrada.DiscursanteId}
                   onChange={e => actualizarEntrada(idx, 'DiscursanteId', e.target.value)}
                 >
-                  <option value="">Seleccionar...</option>
+                  <option value="">{t('sundayPage.selectOption')}</option>
                   {discursantes.map(d => (
                     <option key={d.id} value={d.id}>
                       {d.Apellidos}, {d.Nombres}
@@ -219,12 +222,12 @@ function SeleccionarDomingo() {
                 </select>
               </div>
               <div className="form-group" style={{ margin: 0 }}>
-                <label>Tema</label>
+                <label>{t('sundayPage.topic')}</label>
                 <input
                   className="form-control"
                   value={entrada.Tema}
                   onChange={e => actualizarEntrada(idx, 'Tema', e.target.value)}
-                  placeholder="Tema del discurso"
+                  placeholder={t('sundayPage.topicPlaceholder')}
                 />
               </div>
               <button className="btn btn-danger btn-sm" onClick={() => quitarEntrada(idx)} style={{ alignSelf: 'flex-end' }}>
@@ -241,7 +244,11 @@ function SeleccionarDomingo() {
               onClick={guardar}
               disabled={guardando}
             >
-              {guardando ? 'Guardando...' : modoEdicion ? '💾 Actualizar Discursos del Domingo' : '💾 Guardar Discursos del Domingo'}
+              {guardando
+                ? t('sundayPage.saving')
+                : modoEdicion
+                  ? `💾 ${t('sundayPage.updateSundaySpeeches')}`
+                  : `💾 ${t('sundayPage.saveSundaySpeeches')}`}
             </button>
           </div>
         )}

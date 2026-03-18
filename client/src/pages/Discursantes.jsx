@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const API = '/api/discursantes';
 
 function Discursantes() {
+  const { t, i18n } = useTranslation();
   const [discursantes, setDiscursantes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // null | 'crear' | 'editar'
@@ -43,17 +45,17 @@ function Discursantes() {
       setModal(null);
       cargar();
     } catch (err) {
-      alert('Error al guardar: ' + (err.response?.data?.error || err.message));
+      alert(t('speakersPage.saveError', { error: err.response?.data?.error || err.message }));
     }
   };
 
   const eliminar = async (id, nombre) => {
-    if (!window.confirm(`¿Eliminar a ${nombre}?`)) return;
+    if (!window.confirm(t('speakersPage.deleteConfirm', { name: nombre }))) return;
     try {
       await axios.delete(`${API}/${id}`);
       cargar();
     } catch (err) {
-      alert('Error al eliminar');
+      alert(t('speakersPage.deleteError'));
     }
   };
 
@@ -64,62 +66,63 @@ function Discursantes() {
   };
 
   const formatFecha = (f) => {
-    if (!f) return '—';
+    if (!f) return t('common.noData');
     const d = new Date(f + 'T00:00:00');
-    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    const locale = i18n.resolvedLanguage?.startsWith('en') ? 'en-US' : 'es-ES';
+    return d.toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
   return (
     <div>
       <div className="page-header">
-        <h1>Discursantes</h1>
-        <p>Administra el listado de discursantes del barrio</p>
+        <h1>{t('speakersPage.title')}</h1>
+        <p>{t('speakersPage.subtitle')}</p>
       </div>
 
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h2 style={{ margin: 0, border: 'none', padding: 0 }}>Listado</h2>
-          <button className="btn btn-primary" onClick={abrirCrear}>+ Nuevo Discursante</button>
+          <h2 style={{ margin: 0, border: 'none', padding: 0 }}>{t('speakersPage.listTitle')}</h2>
+          <button className="btn btn-primary" onClick={abrirCrear}>+ {t('speakersPage.newSpeaker')}</button>
         </div>
 
         {loading ? (
-          <div className="loading">Cargando...</div>
+          <div className="loading">{t('common.loading')}</div>
         ) : discursantes.length === 0 ? (
           <div className="empty-state">
             <div className="icon">👥</div>
-            <p>No hay discursantes registrados</p>
+            <p>{t('speakersPage.noSpeakers')}</p>
             <button className="btn btn-primary" onClick={abrirCrear} style={{ marginTop: '1rem' }}>
-              Agregar el primero
+              {t('speakersPage.addFirst')}
             </button>
           </div>
         ) : (
           <table className="tabla">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Llamamiento</th>
-                <th>Último Discurso</th>
-                <th>Total</th>
-                <th>Acciones</th>
+                <th>{t('speakersPage.name')}</th>
+                <th>{t('speakersPage.calling')}</th>
+                <th>{t('speakersPage.lastSpeech')}</th>
+                <th>{t('speakersPage.total')}</th>
+                <th>{t('common.actions')}</th>
               </tr>
             </thead>
             <tbody>
               {discursantes.map(d => (
                 <tr key={d.id}>
                   <td><strong>{d.Apellidos}</strong>, {d.Nombres}</td>
-                  <td>{d.Llamamiento || <span style={{ color: '#a0aec0' }}>—</span>}</td>
+                  <td>{d.Llamamiento || <span style={{ color: '#a0aec0' }}>{t('common.noData')}</span>}</td>
                   <td>
                     {ultimaFecha(d) ? (
                       <span className="badge badge-info">{formatFecha(ultimaFecha(d))}</span>
                     ) : (
-                      <span className="badge badge-warning">Nunca</span>
+                      <span className="badge badge-warning">{t('common.never')}</span>
                     )}
                   </td>
                   <td>{d.discursos ? d.discursos.length : 0}</td>
                   <td>
                     <div className="btn-group">
-                      <button className="btn btn-secondary btn-sm" onClick={() => abrirEditar(d)}>Editar</button>
-                      <button className="btn btn-danger btn-sm" onClick={() => eliminar(d.id, `${d.Nombres} ${d.Apellidos}`)}>Eliminar</button>
+                      <button className="btn btn-secondary btn-sm" onClick={() => abrirEditar(d)}>{t('common.edit')}</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => eliminar(d.id, `${d.Nombres} ${d.Apellidos}`)}>{t('common.delete')}</button>
                     </div>
                   </td>
                 </tr>
@@ -133,40 +136,40 @@ function Discursantes() {
       {modal && (
         <div className="modal-overlay" onClick={() => setModal(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
-            <h2>{modal === 'crear' ? 'Nuevo Discursante' : 'Editar Discursante'}</h2>
+            <h2>{modal === 'crear' ? t('speakersPage.newSpeakerTitle') : t('speakersPage.editSpeakerTitle')}</h2>
             <div className="form-group">
-              <label>Nombres *</label>
+              <label>{t('speakersPage.firstNames')} *</label>
               <input
                 className="form-control"
                 value={form.Nombres}
                 onChange={e => setForm({ ...form, Nombres: e.target.value })}
-                placeholder="Nombres"
+                placeholder={t('speakersPage.firstNames')}
                 autoFocus
               />
             </div>
             <div className="form-group">
-              <label>Apellidos *</label>
+              <label>{t('speakersPage.lastNames')} *</label>
               <input
                 className="form-control"
                 value={form.Apellidos}
                 onChange={e => setForm({ ...form, Apellidos: e.target.value })}
-                placeholder="Apellidos"
+                placeholder={t('speakersPage.lastNames')}
               />
             </div>
             <div className="form-group">
-              <label>Llamamiento</label>
+              <label>{t('speakersPage.calling')}</label>
               <input
                 className="form-control"
                 value={form.Llamamiento}
                 onChange={e => setForm({ ...form, Llamamiento: e.target.value })}
-                placeholder="Ej: Líder misional, Presidente de EQ..."
+                placeholder={t('speakersPage.callingPlaceholder')}
               />
             </div>
             <div className="form-actions">
               <button className="btn btn-primary" onClick={guardar}>
-                {modal === 'crear' ? 'Crear' : 'Guardar Cambios'}
+                {modal === 'crear' ? t('common.create') : t('speakersPage.saveChanges')}
               </button>
-              <button className="btn btn-secondary" onClick={() => setModal(null)}>Cancelar</button>
+              <button className="btn btn-secondary" onClick={() => setModal(null)}>{t('common.cancel')}</button>
             </div>
           </div>
         </div>
