@@ -23,7 +23,7 @@ Antes, la asignación de discursantes de la congregación se hacía manualmente 
 - 📅 Asignar fechas y temas
 - 📊 Ver historial de asignaciones
 - 🔔 Registro de discursantes y frecuencia
-- Sugerencias de discursantes por tiempo
+- 💡 Sugerencias de discursantes por tiempo
 
 ## 🚀 Cómo Ejecutar Localmente
 
