@@ -25,3 +25,6 @@ yarn-error.log*
 server_dotgit.backup*
 
 migracion_exportable/
+server_dotgit_backup.tgz
+ERDDiagram1.png
+ModeloER.mdj
