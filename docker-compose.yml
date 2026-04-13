@@ -1,6 +1,7 @@
 services:
   db:
-    image: mysql:8.0
+    image: mariadb:10.11
+    mem_limit: 512m
     container_name: discursantes_db
     restart: unless-stopped
     environment:
