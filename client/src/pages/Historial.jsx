@@ -53,44 +53,80 @@ function Historial() {
           </div>
         </div>
       ) : (
-        domingos.map(domingo => (
-          <div key={domingo.fecha} className="card domingo-group">
-            <div className="domingo-fecha">
-              📅 {formatFecha(domingo.fecha)}
+        domingos.map((domingo, index) => (
+          <div key={domingo.fecha} className="history-card" style={{ animationDelay: `${index * 80}ms` }}>
+            <div className="history-card__date">
+              <span aria-hidden="true">📅</span>
+              {formatFecha(domingo.fecha)}
             </div>
-            <table className="tabla">
-              <thead>
-                <tr>
-                  <th>{t('historyPage.speaker')}</th>
-                  <th>{t('speakersPage.calling')}</th>
-                  <th>{t('historyPage.topic')}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {domingo.discursos.map(d => (
-                  <tr key={d.id}>
-                    <td>
-                      <strong>
-                        {d.discursante
-                          ? `${d.discursante.Nombres} ${d.discursante.Apellidos}`
-                            : t('common.unknown')}
-                      </strong>
-                    </td>
-                    <td>{d.discursante?.Llamamiento || t('common.noData')}</td>
-                    <td>{d.Tema}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => eliminarDiscurso(d.id)}
-                      >
-                        {t('common.delete')}
-                      </button>
-                    </td>
+
+            {/* Desktop table */}
+            <div className="table-container hide-mobile">
+              <table className="tabla">
+                <thead>
+                  <tr>
+                    <th>{t('historyPage.speaker')}</th>
+                    <th>{t('speakersPage.calling')}</th>
+                    <th>{t('historyPage.topic')}</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {domingo.discursos.map(d => (
+                    <tr key={d.id}>
+                      <td>
+                        <strong>
+                          {d.discursante
+                            ? `${d.discursante.Nombres} ${d.discursante.Apellidos}`
+                            : t('common.unknown')}
+                        </strong>
+                      </td>
+                      <td>{d.discursante?.Llamamiento || t('common.noData')}</td>
+                      <td>{d.Tema}</td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          onClick={() => eliminarDiscurso(d.id)}
+                        >
+                          {t('common.delete')}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile list */}
+            <div className="hide-desktop">
+              <div className="history-list">
+                {domingo.discursos.map(d => (
+                  <div key={d.id} className="history-item">
+                  <div className="history-item__main">
+                    <div className="history-item__name">
+                      {d.discursante
+                        ? `${d.discursante.Nombres} ${d.discursante.Apellidos}`
+                        : t('common.unknown')}
+                    </div>
+                    <div className="history-item__calling">
+                      {d.discursante?.Llamamiento || t('common.noData')}
+                    </div>
+                  </div>
+                  <div className="history-item__topic">{d.Tema}</div>
+                  <div className="history-item__actions">
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => eliminarDiscurso(d.id)}
+                    >
+                      {t('common.delete')}
+                    </button>
+                  </div>
+                </div>
+              ))}
+              </div>
+            </div>
           </div>
         ))
       )}

@@ -132,10 +132,15 @@ function SeleccionarDomingo() {
       </div>
 
       {mensaje && (
-        <div className="card" style={{ background: '#f0fff4', borderLeft: '4px solid #38a169' }}>
-          <p style={{ color: '#276749', fontWeight: 600 }}>{mensaje}</p>
-          <button className="btn btn-secondary btn-sm" onClick={() => setMensaje(null)} style={{ marginTop: '0.5rem' }}>
-            {t('common.close')}
+        <div className="toast toast--success" role="status" aria-live="polite">
+          <span className="toast__content">{mensaje}</span>
+          <button
+            type="button"
+            className="toast__close"
+            onClick={() => setMensaje(null)}
+            aria-label={t('common.close')}
+          >
+            ✕
           </button>
         </div>
       )}
@@ -149,17 +154,16 @@ function SeleccionarDomingo() {
               className="form-control"
               value={fecha}
               onChange={e => cambiarFecha(e.target.value)}
-              style={{ width: '250px' }}
             />
           </div>
-          {cargandoFecha && <span style={{ color: '#a0aec0' }}>{t('sundayPage.loadingDate')}</span>}
+          {cargandoFecha && <span style={{ color: 'var(--color-text-muted)' }}>{t('sundayPage.loadingDate')}</span>}
           {!cargandoFecha && modoEdicion && (
-            <span className="badge badge-warning" style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem' }}>
+            <span className="status-badge status-badge--warning">
               ✏️ {t('sundayPage.editingExistingSunday')}
             </span>
           )}
           {!cargandoFecha && !modoEdicion && fecha && (
-            <span className="badge badge-success" style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem' }}>
+            <span className="status-badge status-badge--success">
               ✨ {t('sundayPage.newSunday')}
             </span>
           )}
@@ -170,20 +174,19 @@ function SeleccionarDomingo() {
       <div className="card">
         <h2>💡 {t('sundayPage.suggestionsTitle')}</h2>
         {sugerencias.length === 0 ? (
-          <p style={{ color: '#a0aec0' }}>{t('sundayPage.noRegisteredSpeakers')}</p>
+          <p style={{ color: 'var(--color-text-muted)' }}>{t('sundayPage.noRegisteredSpeakers')}</p>
         ) : (
-          <div className="sugerencia-list">
+          <div className="suggestion-grid">
             {sugerencias.slice(0, 10).map(s => (
               <button
                 key={s.id}
+                type="button"
                 className={`sugerencia-chip ${!s.ultimaFecha ? 'nunca' : ''}`}
                 onClick={() => agregarSugerido(s.id)}
                 title={s.ultimaFecha ? t('sundayPage.last', { date: formatFecha(s.ultimaFecha) }) : t('sundayPage.neverSpoken')}
               >
-                {s.Nombres} {s.Apellidos}
-                <small style={{ marginLeft: '0.3rem', opacity: 0.7 }}>
-                  {s.ultimaFecha ? formatFecha(s.ultimaFecha) : t('sundayPage.neverTag')}
-                </small>
+                <span>{s.Nombres} {s.Apellidos}</span>
+                <small>{s.ultimaFecha ? formatFecha(s.ultimaFecha) : t('sundayPage.neverTag')}</small>
               </button>
             ))}
           </div>
@@ -192,8 +195,8 @@ function SeleccionarDomingo() {
 
       {/* Entradas de discursantes */}
       <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h2 style={{ margin: 0, border: 'none', padding: 0 }}>{t('sundayPage.sundaySpeakers')}</h2>
+        <div className="card-header">
+          <h2>{t('sundayPage.sundaySpeakers')}</h2>
           <button className="btn btn-success" onClick={agregarEntrada}>+ {t('sundayPage.addSpeaker')}</button>
         </div>
 
@@ -203,7 +206,7 @@ function SeleccionarDomingo() {
           </div>
         ) : (
           entradas.map((entrada, idx) => (
-            <div key={idx} className="domingo-entry">
+            <div key={idx} className="entry-card">
               <div className="form-group" style={{ margin: 0 }}>
                 <label>{t('sundayPage.selectSpeaker')}</label>
                 <select
@@ -228,8 +231,12 @@ function SeleccionarDomingo() {
                   placeholder={t('sundayPage.topicPlaceholder')}
                 />
               </div>
-              <button className="btn btn-danger btn-sm" onClick={() => quitarEntrada(idx)} style={{ alignSelf: 'flex-end' }}>
-                ✕
+              <button
+                type="button"
+                className="btn btn-danger btn-sm entry-card__remove"
+                onClick={() => quitarEntrada(idx)}
+              >
+                ✕ {t('common.delete')}
               </button>
             </div>
           ))
@@ -238,7 +245,8 @@ function SeleccionarDomingo() {
         {entradas.length > 0 && (
           <div className="form-actions" style={{ marginTop: '1.5rem' }}>
             <button
-              className="btn btn-primary"
+              type="button"
+              className="btn btn-primary btn-lg"
               onClick={guardar}
               disabled={guardando}
             >

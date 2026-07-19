@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDiscursantes, createDiscursante, updateDiscursante, deleteDiscursante } from '../lib/db';
 
@@ -9,6 +9,7 @@ function Discursantes() {
   const [modal, setModal] = useState(null); // null | 'crear' | 'editar'
   const [form, setForm] = useState({ Nombres: '', Apellidos: '', Llamamiento: '' });
   const [editId, setEditId] = useState(null);
+  const [search, setSearch] = useState('');
 
   const cargar = () => {
     setLoading(true);
@@ -70,6 +71,24 @@ function Discursantes() {
     return d.toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
+  const filtered = useMemo(() => {
+    const term = search.trim().toLowerCase();
+    if (!term) return discursantes;
+    return discursantes.filter(d =>
+      `${d.Nombres} ${d.Apellidos}`.toLowerCase().includes(term) ||
+      (d.Llamamiento || '').toLowerCase().includes(term)
+    );
+  }, [discursantes, search]);
+
+  const renderLastSpeechBadge = (d) => {
+    const fecha = ultimaFecha(d);
+    return fecha ? (
+      <span className="badge badge-info">{formatFecha(fecha)}</span>
+    ) : (
+      <span className="badge badge-warning">{t('common.never')}</span>
+    );
+  };
+
   return (
     <div>
       <div className="page-header">
@@ -78,9 +97,22 @@ function Discursantes() {
       </div>
 
       <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <h2 style={{ margin: 0, border: 'none', padding: 0 }}>{t('speakersPage.listTitle')}</h2>
-          <button className="btn btn-primary" onClick={abrirCrear}>+ {t('speakersPage.newSpeaker')}</button>
+        <div className="card-header">
+          <h2>{t('speakersPage.listTitle')}</h2>
+          <div className="card-header__actions">
+            <div className="search">
+              <span className="search__icon">🔍</span>
+              <input
+                type="text"
+                className="search__input"
+                placeholder={t('speakersPage.search')}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                aria-label={t('speakersPage.search')}
+              />
+            </div>
+            <button className="btn btn-primary" onClick={abrirCrear}>+ {t('speakersPage.newSpeaker')}</button>
+          </div>
         </div>
 
         {loading ? (
@@ -93,40 +125,68 @@ function Discursantes() {
               {t('speakersPage.addFirst')}
             </button>
           </div>
+        ) : filtered.length === 0 ? (
+          <div className="empty-state">
+            <div className="icon">🔍</div>
+            <p>{t('speakersPage.noSearchResults')}</p>
+          </div>
         ) : (
-          <table className="tabla">
-            <thead>
-              <tr>
-                <th>{t('speakersPage.name')}</th>
-                <th>{t('speakersPage.calling')}</th>
-                <th>{t('speakersPage.lastSpeech')}</th>
-                <th>{t('speakersPage.total')}</th>
-                <th>{t('common.actions')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {discursantes.map(d => (
-                <tr key={d.id}>
-                  <td><strong>{d.Apellidos}</strong>, {d.Nombres}</td>
-                  <td>{d.Llamamiento || <span style={{ color: '#a0aec0' }}>{t('common.noData')}</span>}</td>
-                  <td>
-                    {ultimaFecha(d) ? (
-                      <span className="badge badge-info">{formatFecha(ultimaFecha(d))}</span>
-                    ) : (
-                      <span className="badge badge-warning">{t('common.never')}</span>
-                    )}
-                  </td>
-                  <td>{d.discursos ? d.discursos.length : 0}</td>
-                  <td>
-                    <div className="btn-group">
-                      <button className="btn btn-secondary btn-sm" onClick={() => abrirEditar(d)}>{t('common.edit')}</button>
-                      <button className="btn btn-danger btn-sm" onClick={() => eliminar(d.id, `${d.Nombres} ${d.Apellidos}`)}>{t('common.delete')}</button>
+          <>
+            {/* Desktop table */}
+            <div className="table-container hide-mobile">
+              <table className="tabla">
+                <thead>
+                  <tr>
+                    <th>{t('speakersPage.name')}</th>
+                    <th>{t('speakersPage.calling')}</th>
+                    <th>{t('speakersPage.lastSpeech')}</th>
+                    <th>{t('speakersPage.total')}</th>
+                    <th>{t('common.actions')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map(d => (
+                    <tr key={d.id}>
+                      <td><strong>{d.Apellidos}</strong>, {d.Nombres}</td>
+                      <td>{d.Llamamiento || <span style={{ color: 'var(--color-text-muted)' }}>{t('common.noData')}</span>}</td>
+                      <td>{renderLastSpeechBadge(d)}</td>
+                      <td>{d.discursos ? d.discursos.length : 0}</td>
+                      <td>
+                        <div className="btn-group">
+                          <button className="btn btn-secondary btn-sm" onClick={() => abrirEditar(d)}>{t('common.edit')}</button>
+                          <button className="btn btn-danger btn-sm" onClick={() => eliminar(d.id, `${d.Nombres} ${d.Apellidos}`)}>{t('common.delete')}</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile cards */}
+            <div className="hide-desktop">
+              <div className="speaker-cards">
+                {filtered.map(d => (
+                  <div key={d.id} className="speaker-card">
+                  <div className="speaker-card__main">
+                    <div className="speaker-card__name">{d.Apellidos}, {d.Nombres}</div>
+                    <div className="speaker-card__calling">
+                      {d.Llamamiento || t('common.noData')}
                     </div>
-                  </td>
-                </tr>
+                    <div className="speaker-card__meta">
+                      {renderLastSpeechBadge(d)}
+                      <span className="badge badge-success">{t('speakersPage.total')}: {d.discursos ? d.discursos.length : 0}</span>
+                    </div>
+                  </div>
+                  <div className="speaker-card__actions">
+                    <button className="btn btn-secondary btn-sm" onClick={() => abrirEditar(d)}>{t('common.edit')}</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => eliminar(d.id, `${d.Nombres} ${d.Apellidos}`)}>{t('common.delete')}</button>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+              </div>
+            </div>
+          </>
         )}
       </div>
 
@@ -135,24 +195,26 @@ function Discursantes() {
         <div className="modal-overlay" onClick={() => setModal(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <h2>{modal === 'crear' ? t('speakersPage.newSpeakerTitle') : t('speakersPage.editSpeakerTitle')}</h2>
-            <div className="form-group">
-              <label>{t('speakersPage.firstNames')} *</label>
-              <input
-                className="form-control"
-                value={form.Nombres}
-                onChange={e => setForm({ ...form, Nombres: e.target.value })}
-                placeholder={t('speakersPage.firstNames')}
-                autoFocus
-              />
-            </div>
-            <div className="form-group">
-              <label>{t('speakersPage.lastNames')} *</label>
-              <input
-                className="form-control"
-                value={form.Apellidos}
-                onChange={e => setForm({ ...form, Apellidos: e.target.value })}
-                placeholder={t('speakersPage.lastNames')}
-              />
+            <div className="form-row">
+              <div className="form-group">
+                <label>{t('speakersPage.firstNames')} <span className="required">*</span></label>
+                <input
+                  className="form-control"
+                  value={form.Nombres}
+                  onChange={e => setForm({ ...form, Nombres: e.target.value })}
+                  placeholder={t('speakersPage.firstNames')}
+                  autoFocus
+                />
+              </div>
+              <div className="form-group">
+                <label>{t('speakersPage.lastNames')} <span className="required">*</span></label>
+                <input
+                  className="form-control"
+                  value={form.Apellidos}
+                  onChange={e => setForm({ ...form, Apellidos: e.target.value })}
+                  placeholder={t('speakersPage.lastNames')}
+                />
+              </div>
             </div>
             <div className="form-group">
               <label>{t('speakersPage.calling')}</label>

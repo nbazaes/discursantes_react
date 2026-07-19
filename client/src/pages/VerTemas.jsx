@@ -20,16 +20,6 @@ function VerTemas() {
     return d.toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
-  // Agrupar por tema
-  const temasMap = {};
-  discursos.forEach(d => {
-    const tema = d.Tema;
-    if (!temasMap[tema]) temasMap[tema] = [];
-    temasMap[tema].push(d);
-  });
-
-  const temas = Object.keys(temasMap).sort();
-
   return (
     <div>
       <div className="page-header">
@@ -39,7 +29,7 @@ function VerTemas() {
 
       {loading ? (
         <div className="loading">{t('common.loading')}</div>
-      ) : temas.length === 0 ? (
+      ) : discursos.length === 0 ? (
         <div className="card">
           <div className="empty-state">
             <div className="icon">📖</div>
@@ -48,30 +38,52 @@ function VerTemas() {
         </div>
       ) : (
         <div className="card">
-          <table className="tabla">
-            <thead>
-              <tr>
-                <th>{t('topicsPage.topic')}</th>
-                <th>{t('topicsPage.speaker')}</th>
-                <th>{t('topicsPage.date')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {discursos.map(d => (
-                <tr key={d.id}>
-                  <td><strong>{d.Tema}</strong></td>
-                  <td>
-                    {d.discursante
-                      ? `${d.discursante.Nombres} ${d.discursante.Apellidos}`
-                      : t('common.noData')}
-                  </td>
-                  <td>
-                    <span className="badge badge-info">{formatFecha(d.Fecha)}</span>
-                  </td>
+          <div className="card-header">
+            <h2>{t('topicsPage.topicList')}</h2>
+          </div>
+
+          {/* Desktop table */}
+          <div className="table-container hide-mobile">
+            <table className="tabla">
+              <thead>
+                <tr>
+                  <th>{t('topicsPage.topic')}</th>
+                  <th>{t('topicsPage.speaker')}</th>
+                  <th>{t('topicsPage.date')}</th>
                 </tr>
+              </thead>
+              <tbody>
+                {discursos.map(d => (
+                  <tr key={d.id}>
+                    <td><strong>{d.Tema}</strong></td>
+                    <td>
+                      {d.discursante
+                        ? `${d.discursante.Nombres} ${d.discursante.Apellidos}`
+                        : t('common.noData')}
+                    </td>
+                    <td>
+                      <span className="badge badge-info">{formatFecha(d.Fecha)}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile cards */}
+          <div className="hide-desktop">
+            <div className="topic-list">
+              {discursos.map(d => (
+                <div key={d.id} className="topic-item">
+                <div className="topic-item__title">{d.Tema}</div>
+                <div className="topic-item__meta">
+                  <span>{d.discursante ? `${d.discursante.Nombres} ${d.discursante.Apellidos}` : t('common.noData')}</span>
+                  <span className="badge badge-info">{formatFecha(d.Fecha)}</span>
+                </div>
+              </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </div>
         </div>
       )}
     </div>
