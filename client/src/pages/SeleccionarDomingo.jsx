@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-
-const API = '/api';
+import { getDiscursantes, getSugerencias, getDiscursosPorFecha, replaceDiscursosFecha, createDiscursos } from '../lib/db';
 
 function SeleccionarDomingo() {
   const { t, i18n } = useTranslation();
@@ -19,9 +17,9 @@ function SeleccionarDomingo() {
     if (!f) return;
     setCargandoFecha(true);
     try {
-      const res = await axios.get(`${API}/discursos/fecha/${f}`);
-      if (res.data.length > 0) {
-        setEntradas(res.data.map(d => ({
+      const data = await getDiscursosPorFecha(f);
+      if (data.length > 0) {
+        setEntradas(data.map(d => ({
           id: d.id,
           DiscursanteId: String(d.DiscursanteId),
           Tema: d.Tema
@@ -52,11 +50,11 @@ function SeleccionarDomingo() {
     setFecha(fechaInicial);
 
     // Cargar discursantes y sugerencias
-    axios.get(`${API}/discursantes`).then(res => {
-      setDiscursantes(res.data);
+    getDiscursantes().then(data => {
+      setDiscursantes(data);
     });
-    axios.get(`${API}/discursantes/accion/sugerencia`).then(res => {
-      setSugerencias(res.data);
+    getSugerencias().then(data => {
+      setSugerencias(data);
     });
 
     // Cargar discursos existentes para esa fecha
@@ -101,20 +99,20 @@ function SeleccionarDomingo() {
       }));
 
       if (modoEdicion) {
-        await axios.put(`${API}/discursos/fecha/${fecha}`, { discursos });
+        await replaceDiscursosFecha(fecha, discursos);
         setMensaje(t('sundayPage.updateSuccess'));
       } else {
         const payload = discursos.map(d => ({ ...d, Fecha: fecha }));
-        await axios.post(`${API}/discursos`, { discursos: payload });
+        await createDiscursos(payload);
         setMensaje(t('sundayPage.saveSuccess'));
       }
 
       // Recargar
       await cargarDiscursosFecha(fecha);
-      const res = await axios.get(`${API}/discursantes/accion/sugerencia`);
-      setSugerencias(res.data);
+      const data = await getSugerencias();
+      setSugerencias(data);
     } catch (err) {
-      alert(t('sundayPage.saveError', { error: err.response?.data?.error || err.message }));
+      alert(t('sundayPage.saveError', { error: err.message }));
     }
     setGuardando(false);
   };

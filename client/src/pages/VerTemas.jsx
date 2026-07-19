@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { getTemas } from '../lib/db';
 
 function VerTemas() {
   const { t, i18n } = useTranslation();
@@ -8,8 +8,8 @@ function VerTemas() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/discursos/temas').then(res => {
-      setDiscursos(res.data);
+    getTemas().then(data => {
+      setDiscursos(data);
       setLoading(false);
     }).catch(() => setLoading(false));
   }, []);

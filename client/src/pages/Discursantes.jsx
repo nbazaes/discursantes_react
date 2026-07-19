@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-
-const API = '/api/discursantes';
+import { getDiscursantes, createDiscursante, updateDiscursante, deleteDiscursante } from '../lib/db';
 
 function Discursantes() {
   const { t, i18n } = useTranslation();
@@ -14,8 +12,8 @@ function Discursantes() {
 
   const cargar = () => {
     setLoading(true);
-    axios.get(API).then(res => {
-      setDiscursantes(res.data);
+    getDiscursantes().then(data => {
+      setDiscursantes(data);
       setLoading(false);
     }).catch(() => setLoading(false));
   };
@@ -38,23 +36,23 @@ function Discursantes() {
     if (!form.Nombres.trim() || !form.Apellidos.trim()) return;
     try {
       if (modal === 'crear') {
-        await axios.post(API, form);
+        await createDiscursante(form);
       } else {
-        await axios.put(`${API}/${editId}`, form);
+        await updateDiscursante(editId, form);
       }
       setModal(null);
       cargar();
     } catch (err) {
-      alert(t('speakersPage.saveError', { error: err.response?.data?.error || err.message }));
+      alert(t('speakersPage.saveError', { error: err.message }));
     }
   };
 
   const eliminar = async (id, nombre) => {
     if (!window.confirm(t('speakersPage.deleteConfirm', { name: nombre }))) return;
     try {
-      await axios.delete(`${API}/${id}`);
+      await deleteDiscursante(id);
       cargar();
-    } catch (err) {
+    } catch {
       alert(t('speakersPage.deleteError'));
     }
   };

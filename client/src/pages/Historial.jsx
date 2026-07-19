@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { getDomingos, deleteDiscurso } from '../lib/db';
 
 function Historial() {
   const { t, i18n } = useTranslation();
@@ -8,8 +8,8 @@ function Historial() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/discursos/domingos').then(res => {
-      setDomingos(res.data);
+    getDomingos().then(data => {
+      setDomingos(data);
       setLoading(false);
     }).catch(() => setLoading(false));
   }, []);
@@ -28,10 +28,9 @@ function Historial() {
   const eliminarDiscurso = async (id) => {
     if (!window.confirm(t('historyPage.deleteConfirm'))) return;
     try {
-      await axios.delete(`/api/discursos/${id}`);
-      // Recargar
-      const res = await axios.get('/api/discursos/domingos');
-      setDomingos(res.data);
+      await deleteDiscurso(id);
+      const data = await getDomingos();
+      setDomingos(data);
     } catch {
       alert(t('historyPage.deleteError'));
     }

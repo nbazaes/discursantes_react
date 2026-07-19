@@ -1,7 +1,6 @@
 # Node
 node_modules/
 client/node_modules/
-server/node_modules/
 
 # Build outputs
 dist/
@@ -11,7 +10,7 @@ build/
 .env
 .env.local
 client/.env
-server/.env
+client/.env.local
 
 # OS files
 .DS_Store
