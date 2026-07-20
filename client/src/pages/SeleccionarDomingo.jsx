@@ -12,6 +12,7 @@ function SeleccionarDomingo() {
   const [mensaje, setMensaje] = useState(null);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [cargandoFecha, setCargandoFecha] = useState(false);
+  const [ocultos, setOcultos] = useState([]);
 
   const cargarDiscursosFecha = useCallback(async (f) => {
     if (!f) return;
@@ -84,6 +85,10 @@ function SeleccionarDomingo() {
 
   const quitarEntrada = (index) => {
     setEntradas(entradas.filter((_, i) => i !== index));
+  };
+
+  const ocultarSugerencia = (id) => {
+    setOcultos([...ocultos, id]);
   };
 
   const guardar = async () => {
@@ -177,18 +182,31 @@ function SeleccionarDomingo() {
           <p style={{ color: 'var(--color-text-muted)' }}>{t('sundayPage.noRegisteredSpeakers')}</p>
         ) : (
           <div className="suggestion-grid">
-            {sugerencias.slice(0, 10).map(s => (
-              <button
-                key={s.id}
-                type="button"
-                className={`sugerencia-chip ${!s.ultimaFecha ? 'nunca' : ''}`}
-                onClick={() => agregarSugerido(s.id)}
-                title={s.ultimaFecha ? t('sundayPage.last', { date: formatFecha(s.ultimaFecha) }) : t('sundayPage.neverSpoken')}
-              >
-                <span>{s.Nombres} {s.Apellidos}</span>
-                <small>{s.ultimaFecha ? formatFecha(s.ultimaFecha) : t('sundayPage.neverTag')}</small>
-              </button>
-            ))}
+            {sugerencias
+              .filter(s => !ocultos.includes(s.id))
+              .slice(0, 10)
+              .map(s => (
+                <div
+                  key={s.id}
+                  className={`sugerencia-chip ${!s.ultimaFecha ? 'nunca' : ''}`}
+                  onClick={() => agregarSugerido(s.id)}
+                  title={s.ultimaFecha ? t('sundayPage.last', { date: formatFecha(s.ultimaFecha) }) : t('sundayPage.neverSpoken')}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={e => { if (e.key === 'Enter') agregarSugerido(s.id); }}
+                >
+                  <span>{s.Nombres} {s.Apellidos}</span>
+                  <small>{s.ultimaFecha ? formatFecha(s.ultimaFecha) : t('sundayPage.neverTag')}</small>
+                  <button
+                    type="button"
+                    className="sugerencia-chip__remove"
+                    onClick={e => { e.stopPropagation(); ocultarSugerencia(s.id); }}
+                    title={t('common.delete')}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
           </div>
         )}
       </div>

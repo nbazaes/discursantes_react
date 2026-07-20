@@ -1122,6 +1122,34 @@ select.form-control {
   font-weight: 400;
 }
 
+.sugerencia-chip__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: inherit;
+  opacity: 0.5;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  margin-left: 2px;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.sugerencia-chip__remove:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.sugerencia-chip.nunca .sugerencia-chip__remove:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
 .entry-card {
   display: grid;
   grid-template-columns: 1fr;
