@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@clerk/localizations": "^4.13.10",
     "@clerk/react": "^6.12.11",
     "@supabase/supabase-js": "^2.110.7",
     "i18next": "^25.8.18",

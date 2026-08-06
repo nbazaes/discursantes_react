@@ -1,38 +1,16 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth, useOrganization, UserButton, SignIn, SignUp } from '@clerk/react';
+import { useAuth, useOrganization, UserButton } from '@clerk/react';
 import Dashboard from './pages/Dashboard';
 import Discursantes from './pages/Discursantes';
 import SeleccionarDomingo from './pages/SeleccionarDomingo';
 import VerTemas from './pages/VerTemas';
 import Historial from './pages/Historial';
 import { STORAGE_KEY, SUPPORTED_LANGUAGES } from './i18n';
-
-const THEME_KEY = 'discursantes_theme';
-
-function useTheme() {
-  const [theme, setTheme] = useState(() => {
-    const stored = window.localStorage.getItem(THEME_KEY);
-    if (stored === 'dark' || stored === 'light') return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    window.localStorage.setItem(THEME_KEY, theme);
-
-    const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (metaTheme) {
-      metaTheme.setAttribute('content', theme === 'dark' ? '#2a2342' : '#5B3A8C');
-    }
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-
-  return { theme, toggleTheme };
-}
+import { useTheme } from './lib/theme';
+import { SignInPage, SignUpPage } from './pages/AuthPage';
 
 function WardBadge() {
   const { organization } = useOrganization();
@@ -211,8 +189,8 @@ function App() {
         {isLoaded && isSignedIn && <NavBar />}
         <main className="main-content">
           <Routes>
-            <Route path="/sign-in" element={<SignIn afterSignInUrl="/" signUpUrl="/sign-up" />} />
-            <Route path="/sign-up" element={<SignUp afterSignUpUrl="/" signInUrl="/sign-in" />} />
+            <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/sign-up" element={<SignUpPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/discursantes" element={<Discursantes />} />

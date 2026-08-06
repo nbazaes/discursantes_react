@@ -46,6 +46,9 @@ const resources = {
         never: 'Nunca',
         noData: '—',
       },
+      auth: {
+        tagline: 'Gestión de discursantes y discursos dominicales',
+      },
       dashboard: {
         title: 'Panel Principal',
         subtitle: 'Gestion de discursantes y discursos dominicales',
@@ -156,6 +159,9 @@ const resources = {
         unknown: 'Unknown',
         never: 'Never',
         noData: '—',
+      },
+      auth: {
+        tagline: 'Sunday speakers and talks management',
       },
       dashboard: {
         title: 'Main Dashboard',
