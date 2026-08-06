@@ -2,6 +2,8 @@
 
 /* ===== Theme Variables ===== */
 :root {
+  color-scheme: light;
+
   /* Primary purple */
   --color-primary: #5B3A8C;
   --color-primary-dark: #4A2F73;
@@ -96,6 +98,7 @@
 }
 
 [data-theme="dark"] {
+  color-scheme: dark;
   --color-primary: #9B7ED8;
   --color-primary-dark: #B8A4E6;
   --color-primary-light: #7B5DB8;
@@ -126,6 +129,7 @@
 }
 
 [data-theme="light"] {
+  color-scheme: light;
   --color-primary: #5B3A8C;
   --color-primary-dark: #4A2F73;
   --color-primary-light: #8B6CB8;

@@ -1,0 +1,297 @@
+/* ===== Clerk component overrides — match the Púlpito Editorial system ===== */
+
+/* Light mode base */
+[data-theme="light"] .cl-rootBox,
+[data-theme="light"] .cl-card,
+[data-theme="light"] .cl-userButtonPopoverCard,
+[data-theme="light"] .cl-modalContent {
+  --clerk-color-background: var(--color-surface);
+  --clerk-color-input: var(--color-surface);
+  --clerk-color-foreground: var(--color-text);
+  --clerk-color-muted-foreground: var(--color-text-muted);
+  --clerk-color-primary: var(--color-primary);
+  --clerk-color-primary-foreground: var(--color-text-inverse);
+  --clerk-color-border: var(--color-border);
+  --clerk-color-ring: var(--color-primary);
+}
+
+/* Dark mode base */
+[data-theme="dark"] .cl-rootBox,
+[data-theme="dark"] .cl-card,
+[data-theme="dark"] .cl-userButtonPopoverCard,
+[data-theme="dark"] .cl-modalContent {
+  --clerk-color-background: var(--color-surface);
+  --clerk-color-input: var(--color-surface-raised);
+  --clerk-color-foreground: var(--color-text);
+  --clerk-color-muted-foreground: var(--color-text-muted);
+  --clerk-color-primary: var(--color-primary);
+  --clerk-color-primary-foreground: var(--color-text-inverse);
+  --clerk-color-border: var(--color-border);
+  --clerk-color-ring: var(--color-primary);
+}
+
+/* Card */
+.cl-card,
+.cl-userButtonPopoverCard,
+.cl-modalContent {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  color: var(--color-text) !important;
+}
+
+/* Header */
+.cl-headerTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text) !important;
+}
+
+.cl-headerSubtitle {
+  color: var(--color-text-muted) !important;
+}
+
+/* Form fields */
+.cl-formFieldLabel {
+  color: var(--color-text) !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cl-formFieldHintText,
+.cl-formFieldInfoText {
+  color: var(--color-text-muted) !important;
+}
+
+.cl-formFieldErrorText,
+.cl-formFieldError {
+  color: var(--color-danger) !important;
+}
+
+.cl-formFieldInput {
+  min-height: 44px;
+  border: 1.5px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--color-surface-raised) !important;
+  color: var(--color-text) !important;
+}
+
+.cl-formFieldInput:focus,
+.cl-formFieldInput:focus-within {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 4px var(--color-primary-fade) !important;
+}
+
+.cl-formFieldInput::placeholder {
+  color: var(--color-text-muted) !important;
+  opacity: 0.7;
+}
+
+/* Buttons */
+.cl-formButtonPrimary {
+  background: var(--color-primary) !important;
+  color: var(--color-text-inverse) !important;
+  font-weight: 600;
+  border-radius: var(--radius-md) !important;
+}
+
+.cl-formButtonPrimary:hover,
+.cl-formButtonPrimary:focus {
+  background: var(--color-primary-dark) !important;
+  box-shadow: 0 4px 12px var(--color-primary-fade) !important;
+}
+
+.cl-formButtonSecondary,
+.cl-formButtonReset {
+  background: var(--color-bg) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.cl-formButtonSecondary:hover,
+.cl-formButtonReset:hover {
+  background: var(--color-surface-raised) !important;
+  border-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
+}
+
+/* Footer */
+.cl-footerActionText {
+  color: var(--color-text-muted) !important;
+}
+
+.cl-footerActionLink {
+  color: var(--color-primary) !important;
+  font-weight: 600;
+}
+
+.cl-footerActionLink:hover {
+  color: var(--color-primary-dark) !important;
+}
+
+/* Divider */
+.cl-dividerLine {
+  background: var(--color-border) !important;
+}
+
+.cl-dividerText {
+  color: var(--color-text-muted) !important;
+}
+
+/* Social buttons */
+.cl-socialButtonsBlockButton,
+.cl-alternativeMethodsBlockButton {
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--color-surface-raised) !important;
+}
+
+.cl-socialButtonsBlockButton:hover,
+.cl-alternativeMethodsBlockButton:hover {
+  background: var(--color-bg) !important;
+  border-color: var(--color-primary-light) !important;
+}
+
+/* Apple logo inversion in dark mode */
+[data-theme="dark"] .cl-socialButtonsBlockButton[data-provider="apple"] svg,
+[data-theme="dark"] .cl-socialButtonsBlockButton[data-provider="apple"] img,
+[data-theme="dark"] .cl-socialButtonsBlockButton__apple svg,
+[data-theme="dark"] .cl-socialButtonsBlockButton__apple img,
+[data-theme="dark"] .cl-socialButtonsBlockButton__apple .cl-buttonIcon,
+[data-theme="dark"] .cl-socialButtonsBlockButton[data-provider="apple"] .cl-buttonIcon,
+[data-theme="dark"] .cl-socialButtonsIconButton[data-provider="apple"] svg,
+[data-theme="dark"] .cl-socialButtonsIconButton[data-provider="apple"] img,
+[data-theme="dark"] .cl-socialButtonsIconButton[data-provider="apple"] .cl-buttonIcon {
+  filter: invert(1) !important;
+}
+
+/* Google logo sometimes needs a subtle background */
+[data-theme="dark"] .cl-socialButtonsBlockButton[data-provider="google"] svg,
+[data-theme="dark"] .cl-socialButtonsBlockButton[data-provider="google"] img,
+[data-theme="dark"] .cl-socialButtonsBlockButton[data-provider="google"] .cl-buttonIcon {
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+/* Alerts */
+.cl-alert,
+.cl-identityPreview {
+  background: var(--color-bg) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--color-text) !important;
+}
+
+.cl-alertText {
+  color: var(--color-text) !important;
+}
+
+/* UserButton / Profile popover */
+.cl-userButtonPopoverCard {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  overflow: hidden;
+}
+
+.cl-userButtonPopoverMain {
+  padding: var(--space-md) 0;
+}
+
+.cl-userButtonPopoverActionButton {
+  color: var(--color-text) !important;
+  border-radius: var(--radius-md) !important;
+  margin: 0 var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.cl-userButtonPopoverActionButton:hover {
+  background: var(--color-primary-fade) !important;
+  color: var(--color-primary) !important;
+}
+
+.cl-userButtonPopoverActionButtonIcon {
+  color: var(--color-text-muted) !important;
+}
+
+.cl-userButtonPopoverActionButton:hover .cl-userButtonPopoverActionButtonIcon {
+  color: var(--color-primary) !important;
+}
+
+.cl-userButtonPopoverFooter {
+  border-top: 1px solid var(--color-border) !important;
+  padding: var(--space-sm) 0;
+}
+
+.cl-userButtonPopoverFooter p,
+.cl-userButtonPopoverFooter span {
+  color: var(--color-text-muted) !important;
+}
+
+/* User button trigger */
+.cl-userButtonTrigger {
+  border-radius: var(--radius-full) !important;
+  border: 1px solid var(--color-border) !important;
+  background: var(--color-surface) !important;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.cl-userButtonTrigger:hover {
+  border-color: var(--color-primary-light) !important;
+  background: var(--color-primary-fade) !important;
+}
+
+/* Avatar */
+.cl-avatarBox {
+  border-radius: var(--radius-full) !important;
+}
+
+/* Back links */
+.cl-headerBackLink {
+  color: var(--color-text-muted) !important;
+}
+
+.cl-headerBackLink:hover {
+  color: var(--color-primary) !important;
+}
+
+/* Links / OTP resend */
+.cl-otpResendLink,
+.cl-formResendCodeLink {
+  color: var(--color-primary) !important;
+}
+
+.cl-otpResendLink:hover,
+.cl-formResendCodeLink:hover {
+  color: var(--color-primary-dark) !important;
+}
+
+/* Loading spinner */
+.cl-spinner {
+  color: var(--color-primary) !important;
+}
+
+/* Modal backdrop */
+.cl-modalBackdrop {
+  background: rgba(0, 0, 0, 0.55) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cl-card,
+  .cl-userButtonPopoverCard,
+  .cl-userButtonPopoverActionButton,
+  .cl-formButtonPrimary,
+  .cl-formButtonSecondary,
+  .cl-formFieldInput,
+  .cl-socialButtonsBlockButton {
+    transition: none !important;
+  }
+}

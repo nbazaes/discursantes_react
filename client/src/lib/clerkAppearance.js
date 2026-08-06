@@ -42,16 +42,20 @@ export function buildVariables(theme) {
   return {
     colorPrimary: c.primary,
     colorBackground: c.surface,
-    colorInputBackground: c.raised,
-    colorInputText: c.text,
-    colorText: c.text,
-    colorTextSecondary: c.muted,
+    colorInput: c.raised,
+    colorInputForeground: c.text,
+    colorForeground: c.text,
+    colorMutedForeground: c.muted,
     colorNeutral: c.border,
-    colorTextOnPrimaryBackground: '#ffffff',
+    colorPrimaryForeground: '#ffffff',
     colorDanger: c.danger,
     colorSuccess: c.success,
     colorWarning: c.warning,
+    colorBorder: c.border,
+    colorRing: c.primary,
+    colorShadow: 'rgba(0, 0, 0, 0.12)',
     colorShimmer: c.border,
+    colorMuted: c.bg,
     fontFamily: "'Source Sans 3', system-ui, -apple-system, sans-serif",
     fontFamilyButtons: "'Source Sans 3', system-ui, -apple-system, sans-serif",
     borderRadius: '14px',
@@ -61,7 +65,6 @@ export function buildVariables(theme) {
 
 export function buildSignInElements(theme) {
   const c = resolveTokens(theme);
-  const dark = theme === 'dark';
 
   return {
     card: {
@@ -72,82 +75,29 @@ export function buildSignInElements(theme) {
       fontFamily: "'Crimson Pro', Georgia, serif",
       fontWeight: '600',
       letterSpacing: '-0.01em',
-      color: c.text,
     },
-    headerSubtitle: {
-      color: c.muted,
-    },
-    formFieldLabel: {
+    formButtonPrimary: {
       fontWeight: '600',
-      fontSize: '0.9rem',
-      color: c.text,
+      '&:hover': {
+        boxShadow: `0 4px 12px ${c.primaryFade}`,
+      },
+    },
+    formButtonSecondary: {
+      border: `1px solid ${c.border}`,
     },
     formFieldInput: {
       minHeight: '44px',
       border: `1.5px solid ${c.border}`,
       borderRadius: '10px',
       '&:focus': {
-        borderColor: c.primary,
         boxShadow: c.focusRing,
       },
     },
-    formFieldHintText: {
-      color: c.muted,
-    },
-    formFieldErrorText: {
-      color: c.danger,
-    },
-    formButtonPrimary: {
-      background: c.primary,
-      color: '#ffffff',
-      fontWeight: '600',
-      '&:hover': {
-        background: c.primaryDark,
-        boxShadow: `0 4px 12px ${c.primaryFade}`,
-      },
-    },
-    formButtonSecondary: {
-      background: c.bg,
-      color: c.text,
-      border: `1px solid ${c.border}`,
-    },
-    footerActionText: {
-      color: c.muted,
-    },
     footerActionLink: {
-      color: c.primary,
       fontWeight: '600',
-    },
-    dividerLine: {
-      background: c.border,
-    },
-    dividerText: {
-      color: c.muted,
     },
     alert: {
       borderRadius: '10px',
-    },
-    alertText: {
-      color: c.text,
-    },
-    socialButtonsBlockButton: {
-      border: `1px solid ${c.border}`,
-      color: c.text,
-      '&:hover': {
-        background: c.primaryFade,
-      },
-    },
-    ...(dark && {
-      socialButtonsBlockButton__apple: {
-        '& svg': { filter: 'invert(1)' },
-      },
-    }),
-    alternativeMethodsBlockButton: {
-      border: `1px solid ${c.border}`,
-      color: c.text,
-      '&:hover': {
-        background: c.primaryFade,
-      },
     },
   };
 }
