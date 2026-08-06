@@ -11,6 +11,7 @@ import Historial from './pages/Historial';
 import { STORAGE_KEY, SUPPORTED_LANGUAGES } from './i18n';
 import { useTheme } from './lib/theme';
 import { SignInPage, SignUpPage } from './pages/AuthPage';
+import { buildUserButtonElements } from './lib/clerkAppearance';
 
 function WardBadge() {
   const { organization } = useOrganization();
@@ -23,11 +24,11 @@ function WardBadge() {
   );
 }
 
-function AuthActions() {
+function AuthActions({ theme }) {
   return (
     <div className="navbar-auth">
       <WardBadge />
-      <UserButton />
+      <UserButton appearance={{ elements: buildUserButtonElements(theme) }} />
     </div>
   );
 }
@@ -105,7 +106,7 @@ function NavBar() {
               ))}
             </div>
 
-            <AuthActions />
+            <AuthActions theme={theme} />
           </div>
         </div>
 
@@ -163,7 +164,7 @@ function NavBar() {
             ))}
           </div>
 
-          <AuthActions />
+          <AuthActions theme={theme} />
         </div>
       </div>
     </>
