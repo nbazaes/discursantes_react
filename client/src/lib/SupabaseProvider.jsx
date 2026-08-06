@@ -7,7 +7,7 @@ const SupabaseContext = createContext(null);
 export function SupabaseProvider({ children }) {
   const { session } = useSession();
   const supabase = useMemo(
-    () => createClerkSupabaseClient(() => session?.getToken()),
+    () => createClerkSupabaseClient(() => session?.getToken({ authorizedParties: ['https://discursantes.nbazaes.app', 'http://localhost:5173'] })),
     [session]
   );
 

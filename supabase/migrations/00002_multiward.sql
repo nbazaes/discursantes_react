@@ -20,8 +20,8 @@ ALTER TABLE "discursantes" ADD COLUMN IF NOT EXISTS "ward_id" TEXT;
 ALTER TABLE "discursos" ADD COLUMN IF NOT EXISTS "ward_id" TEXT;
 
 -- Backfill existing rows into the first ward (Barrio Villa Esmeralda).
-UPDATE "discursantes" SET "ward_id" = 'org_3HWaT8T23mpvaepoKLY76HPQKDz' WHERE "ward_id" IS NULL;
-UPDATE "discursos" SET "ward_id" = 'org_3HWaT8T23mpvaepoKLY76HPQKDz' WHERE "ward_id" IS NULL;
+UPDATE "discursantes" SET "ward_id" = 'org_3HWkSI36ijfjNYWNrz6gJD7sEdY' WHERE "ward_id" IS NULL;
+UPDATE "discursos" SET "ward_id" = 'org_3HWkSI36ijfjNYWNrz6gJD7sEdY' WHERE "ward_id" IS NULL;
 
 ALTER TABLE "discursantes" ALTER COLUMN "ward_id" SET NOT NULL;
 ALTER TABLE "discursos" ALTER COLUMN "ward_id" SET NOT NULL;
