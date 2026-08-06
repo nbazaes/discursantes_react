@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDiscursantes, createDiscursante, updateDiscursante, deleteDiscursante } from '../lib/db';
+import { useSupabase } from '../lib/SupabaseProvider';
 
 function Discursantes() {
   const { t, i18n } = useTranslation();
+  const supabase = useSupabase();
   const [discursantes, setDiscursantes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // null | 'crear' | 'editar'
@@ -13,7 +15,7 @@ function Discursantes() {
 
   const cargar = () => {
     setLoading(true);
-    getDiscursantes().then(data => {
+    getDiscursantes(supabase).then(data => {
       setDiscursantes(data);
       setLoading(false);
     }).catch(() => setLoading(false));
@@ -37,9 +39,9 @@ function Discursantes() {
     if (!form.Nombres.trim() || !form.Apellidos.trim()) return;
     try {
       if (modal === 'crear') {
-        await createDiscursante(form);
+        await createDiscursante(supabase, form);
       } else {
-        await updateDiscursante(editId, form);
+        await updateDiscursante(supabase, editId, form);
       }
       setModal(null);
       cargar();
@@ -51,7 +53,7 @@ function Discursantes() {
   const eliminar = async (id, nombre) => {
     if (!window.confirm(t('speakersPage.deleteConfirm', { name: nombre }))) return;
     try {
-      await deleteDiscursante(id);
+      await deleteDiscursante(supabase, id);
       cargar();
     } catch {
       alert(t('speakersPage.deleteError'));

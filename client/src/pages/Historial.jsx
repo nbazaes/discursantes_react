@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDomingos, deleteDiscurso } from '../lib/db';
+import { useSupabase } from '../lib/SupabaseProvider';
 
 function Historial() {
   const { t, i18n } = useTranslation();
+  const supabase = useSupabase();
   const [domingos, setDomingos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDomingos().then(data => {
+    getDomingos(supabase).then(data => {
       setDomingos(data);
       setLoading(false);
     }).catch(() => setLoading(false));
@@ -28,8 +30,8 @@ function Historial() {
   const eliminarDiscurso = async (id) => {
     if (!window.confirm(t('historyPage.deleteConfirm'))) return;
     try {
-      await deleteDiscurso(id);
-      const data = await getDomingos();
+      await deleteDiscurso(supabase, id);
+      const data = await getDomingos(supabase);
       setDomingos(data);
     } catch {
       alert(t('historyPage.deleteError'));

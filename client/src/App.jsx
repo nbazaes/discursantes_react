@@ -1,7 +1,8 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth, useOrganization, UserButton, SignIn, SignUp } from '@clerk/react';
 import Dashboard from './pages/Dashboard';
 import Discursantes from './pages/Discursantes';
 import SeleccionarDomingo from './pages/SeleccionarDomingo';
@@ -31,6 +32,26 @@ function useTheme() {
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   return { theme, toggleTheme };
+}
+
+function WardBadge() {
+  const { organization } = useOrganization();
+  if (!organization) return null;
+  return (
+    <span className="ward-badge" title={organization.name}>
+      <span aria-hidden="true">🏛️</span>
+      {organization.name}
+    </span>
+  );
+}
+
+function AuthActions() {
+  return (
+    <div className="navbar-auth">
+      <WardBadge />
+      <UserButton />
+    </div>
+  );
 }
 
 function NavBar() {
@@ -105,6 +126,8 @@ function NavBar() {
                 </button>
               ))}
             </div>
+
+            <AuthActions />
           </div>
         </div>
 
@@ -161,24 +184,43 @@ function NavBar() {
               </button>
             ))}
           </div>
+
+          <AuthActions />
         </div>
       </div>
     </>
   );
 }
 
+function ProtectedRoute() {
+  const { isLoaded, isSignedIn } = useAuth();
+  const { t } = useTranslation();
+
+  if (!isLoaded) return <div className="loading">{t('common.loading')}</div>;
+  if (!isSignedIn) return <Navigate to="/sign-in" replace />;
+
+  return <Outlet />;
+}
+
 function App() {
+  const { isLoaded, isSignedIn } = useAuth();
+
   return (
     <div className="App">
       <Router>
-        <NavBar />
+        {isLoaded && isSignedIn && <NavBar />}
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/discursantes" element={<Discursantes />} />
-            <Route path="/seleccionar-domingo" element={<SeleccionarDomingo />} />
-            <Route path="/temas" element={<VerTemas />} />
-            <Route path="/historial" element={<Historial />} />
+            <Route path="/sign-in" element={<SignIn afterSignInUrl="/" signUpUrl="/sign-up" />} />
+            <Route path="/sign-up" element={<SignUp afterSignUpUrl="/" signInUrl="/sign-in" />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/discursantes" element={<Discursantes />} />
+              <Route path="/seleccionar-domingo" element={<SeleccionarDomingo />} />
+              <Route path="/temas" element={<VerTemas />} />
+              <Route path="/historial" element={<Historial />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </Router>

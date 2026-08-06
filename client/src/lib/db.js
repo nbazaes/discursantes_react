@@ -1,6 +1,4 @@
-import { supabase } from './supabaseClient';
-
-export async function getDiscursantes() {
+export async function getDiscursantes(supabase) {
   const { data, error } = await supabase
     .from('discursantes')
     .select('*, discursos(id, Fecha, Tema)')
@@ -10,7 +8,7 @@ export async function getDiscursantes() {
   return data;
 }
 
-export async function createDiscursante(data) {
+export async function createDiscursante(supabase, data) {
   const { data: created, error } = await supabase
     .from('discursantes')
     .insert(data)
@@ -20,7 +18,7 @@ export async function createDiscursante(data) {
   return created;
 }
 
-export async function updateDiscursante(id, data) {
+export async function updateDiscursante(supabase, id, data) {
   const { data: updated, error } = await supabase
     .from('discursantes')
     .update(data)
@@ -31,7 +29,7 @@ export async function updateDiscursante(id, data) {
   return updated;
 }
 
-export async function deleteDiscursante(id) {
+export async function deleteDiscursante(supabase, id) {
   const { error } = await supabase
     .from('discursantes')
     .delete()
@@ -39,7 +37,7 @@ export async function deleteDiscursante(id) {
   if (error) throw error;
 }
 
-export async function getSugerencias() {
+export async function getSugerencias(supabase) {
   const { data, error } = await supabase
     .from('discursantes')
     .select('*, discursos(Fecha)')
@@ -62,7 +60,7 @@ export async function getSugerencias() {
   return conFecha;
 }
 
-export async function getDiscursosPorFecha(fecha) {
+export async function getDiscursosPorFecha(supabase, fecha) {
   const { data, error } = await supabase
     .from('discursos')
     .select('*, discursante:discursantes(id, Nombres, Apellidos, Llamamiento)')
@@ -72,7 +70,7 @@ export async function getDiscursosPorFecha(fecha) {
   return data;
 }
 
-export async function replaceDiscursosFecha(fecha, discursos) {
+export async function replaceDiscursosFecha(supabase, fecha, discursos) {
   const { error: deleteError } = await supabase
     .from('discursos')
     .delete()
@@ -90,7 +88,7 @@ export async function replaceDiscursosFecha(fecha, discursos) {
   return data;
 }
 
-export async function createDiscursos(discursos) {
+export async function createDiscursos(supabase, discursos) {
   const { data, error } = await supabase
     .from('discursos')
     .insert(discursos)
@@ -99,7 +97,7 @@ export async function createDiscursos(discursos) {
   return data;
 }
 
-export async function getTemas() {
+export async function getTemas(supabase) {
   const { data, error } = await supabase
     .from('discursos')
     .select('*, discursante:discursantes(Nombres, Apellidos)')
@@ -108,7 +106,7 @@ export async function getTemas() {
   return data;
 }
 
-export async function getDomingos() {
+export async function getDomingos(supabase) {
   const { data, error } = await supabase
     .from('discursos')
     .select('*, discursante:discursantes(id, Nombres, Apellidos, Llamamiento)')
@@ -130,7 +128,7 @@ export async function getDomingos() {
     }));
 }
 
-export async function deleteDiscurso(id) {
+export async function deleteDiscurso(supabase, id) {
   const { error } = await supabase
     .from('discursos')
     .delete()

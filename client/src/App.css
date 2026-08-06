@@ -377,6 +377,29 @@ textarea:focus-visible {
   transform: rotate(15deg);
 }
 
+/* Auth actions (ward badge + user button) */
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.ward-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-fade);
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Mobile navbar toggle */
 .navbar-toggle {
   display: none;

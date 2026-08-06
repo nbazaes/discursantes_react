@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getTemas } from '../lib/db';
+import { useSupabase } from '../lib/SupabaseProvider';
 
 function VerTemas() {
   const { t, i18n } = useTranslation();
+  const supabase = useSupabase();
   const [discursos, setDiscursos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getTemas().then(data => {
+    getTemas(supabase).then(data => {
       setDiscursos(data);
       setLoading(false);
     }).catch(() => setLoading(false));

@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDiscursantes, getSugerencias, getDiscursosPorFecha, replaceDiscursosFecha, createDiscursos } from '../lib/db';
+import { useSupabase } from '../lib/SupabaseProvider';
 
 function SeleccionarDomingo() {
   const { t, i18n } = useTranslation();
+  const supabase = useSupabase();
   const [discursantes, setDiscursantes] = useState([]);
   const [sugerencias, setSugerencias] = useState([]);
   const [fecha, setFecha] = useState('');
@@ -18,7 +20,7 @@ function SeleccionarDomingo() {
     if (!f) return;
     setCargandoFecha(true);
     try {
-      const data = await getDiscursosPorFecha(f);
+      const data = await getDiscursosPorFecha(supabase, f);
       if (data.length > 0) {
         setEntradas(data.map(d => ({
           id: d.id,
@@ -51,10 +53,10 @@ function SeleccionarDomingo() {
     setFecha(fechaInicial);
 
     // Cargar discursantes y sugerencias
-    getDiscursantes().then(data => {
+    getDiscursantes(supabase).then(data => {
       setDiscursantes(data);
     });
-    getSugerencias().then(data => {
+    getSugerencias(supabase).then(data => {
       setSugerencias(data);
     });
 
@@ -104,17 +106,17 @@ function SeleccionarDomingo() {
       }));
 
       if (modoEdicion) {
-        await replaceDiscursosFecha(fecha, discursos);
+        await replaceDiscursosFecha(supabase, fecha, discursos);
         setMensaje(t('sundayPage.updateSuccess'));
       } else {
         const payload = discursos.map(d => ({ ...d, Fecha: fecha }));
-        await createDiscursos(payload);
+        await createDiscursos(supabase, payload);
         setMensaje(t('sundayPage.saveSuccess'));
       }
 
       // Recargar
       await cargarDiscursosFecha(fecha);
-      const data = await getSugerencias();
+      const data = await getSugerencias(supabase);
       setSugerencias(data);
     } catch (err) {
       alert(t('sundayPage.saveError', { error: err.message }));

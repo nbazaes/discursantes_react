@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ClerkProvider } from '@clerk/react';
 import App from './App';
 import './i18n';
+import { SupabaseProvider } from './lib/SupabaseProvider';
+
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <SupabaseProvider>
+        <App />
+      </SupabaseProvider>
+    </ClerkProvider>
   </React.StrictMode>
 );

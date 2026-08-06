@@ -16,11 +16,13 @@ CREATE TABLE IF NOT EXISTS "discursos" (
   "updatedAt" TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX ON "discursos" ("Fecha");
-CREATE INDEX ON "discursos" ("DiscursanteId");
+CREATE INDEX IF NOT EXISTS "discursos_Fecha_idx" ON "discursos" ("Fecha");
+CREATE INDEX IF NOT EXISTS "discursos_DiscursanteId_idx" ON "discursos" ("DiscursanteId");
 
 ALTER TABLE "discursantes" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "discursos" ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Allow all on discursantes" ON "discursantes";
+DROP POLICY IF EXISTS "Allow all on discursos" ON "discursos";
 CREATE POLICY "Allow all on discursantes" ON "discursantes" FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow all on discursos" ON "discursos" FOR ALL USING (true) WITH CHECK (true);

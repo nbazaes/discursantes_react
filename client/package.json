@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@clerk/react": "^6.12.11",
     "@supabase/supabase-js": "^2.110.7",
     "i18next": "^25.8.18",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-i18next": "^16.5.8",
-    "react-router-dom": "^7.9.2"
+    "react-router-dom": "^7.9.2",
+    "supabase": "^2.111.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
