@@ -71,21 +71,13 @@ export async function getDiscursosPorFecha(supabase, fecha) {
 }
 
 export async function replaceDiscursosFecha(supabase, fecha, discursos) {
-  const { error: deleteError } = await supabase
-    .from('discursos')
-    .delete()
-    .eq('Fecha', fecha);
-  if (deleteError) throw deleteError;
-
-  if (discursos.length === 0) return [];
-
-  const payload = discursos.map(d => ({ ...d, Fecha: fecha }));
-  const { data, error } = await supabase
-    .from('discursos')
-    .insert(payload)
-    .select();
+  const rows = discursos.map(d => ({ ...d, Fecha: fecha }));
+  const { data, error } = await supabase.rpc('replace_discursos_fecha', {
+    p_fecha: fecha,
+    p_rows: rows,
+  });
   if (error) throw error;
-  return data;
+  return data ?? [];
 }
 
 export async function createDiscursos(supabase, discursos) {

@@ -9,7 +9,7 @@ function Discursantes() {
   const [discursantes, setDiscursantes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // null | 'crear' | 'editar'
-  const [form, setForm] = useState({ Nombres: '', Apellidos: '', Llamamiento: '' });
+  const [form, setForm] = useState({ Nombres: '', Apellidos: '', Llamamiento: '', Telefono: '' });
   const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState('');
 
@@ -24,13 +24,13 @@ function Discursantes() {
   useEffect(() => { cargar(); }, []);
 
   const abrirCrear = () => {
-    setForm({ Nombres: '', Apellidos: '', Llamamiento: '' });
+    setForm({ Nombres: '', Apellidos: '', Llamamiento: '', Telefono: '' });
     setEditId(null);
     setModal('crear');
   };
 
   const abrirEditar = (d) => {
-    setForm({ Nombres: d.Nombres, Apellidos: d.Apellidos, Llamamiento: d.Llamamiento || '' });
+    setForm({ Nombres: d.Nombres, Apellidos: d.Apellidos, Llamamiento: d.Llamamiento || '', Telefono: d.Telefono || '' });
     setEditId(d.id);
     setModal('editar');
   };
@@ -225,6 +225,17 @@ function Discursantes() {
                 value={form.Llamamiento}
                 onChange={e => setForm({ ...form, Llamamiento: e.target.value })}
                 placeholder={t('speakersPage.callingPlaceholder')}
+              />
+            </div>
+            <div className="form-group">
+              <label>{t('speakersPage.phone')}</label>
+              <input
+                className="form-control"
+                type="tel"
+                value={form.Telefono}
+                onChange={e => setForm({ ...form, Telefono: e.target.value })}
+                placeholder={t('speakersPage.phonePlaceholder')}
+                autoComplete="tel"
               />
             </div>
             <div className="form-actions">

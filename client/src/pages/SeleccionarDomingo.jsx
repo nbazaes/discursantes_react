@@ -11,6 +11,7 @@ function SeleccionarDomingo() {
   const [fecha, setFecha] = useState('');
   const [entradas, setEntradas] = useState([]);
   const [guardando, setGuardando] = useState(false);
+  const [enviandoWhatsApp, setEnviandoWhatsApp] = useState(false);
   const [mensaje, setMensaje] = useState(null);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [cargandoFecha, setCargandoFecha] = useState(false);
@@ -122,6 +123,29 @@ function SeleccionarDomingo() {
       alert(t('sundayPage.saveError', { error: err.message }));
     }
     setGuardando(false);
+  };
+
+  const enviarNotificaciones = async () => {
+    if (!fecha) {
+      alert(t('sundayPage.whatsAppNoDate'));
+      return;
+    }
+    setEnviandoWhatsApp(true);
+    setMensaje(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-notifications', {
+        body: { fecha },
+      });
+      if (error) throw error;
+      setMensaje(t('sundayPage.whatsAppResult', {
+        sent: data?.sent?.length ?? 0,
+        skipped: data?.skipped?.length ?? 0,
+        failed: data?.failed?.length ?? 0,
+      }));
+    } catch (err) {
+      alert(t('sundayPage.whatsAppError', { error: err.message }));
+    }
+    setEnviandoWhatsApp(false);
   };
 
   const formatFecha = (f) => {
@@ -268,13 +292,21 @@ function SeleccionarDomingo() {
               type="button"
               className="btn btn-primary btn-lg"
               onClick={guardar}
-              disabled={guardando}
+              disabled={guardando || enviandoWhatsApp}
             >
               {guardando
                 ? t('sundayPage.saving')
                 : modoEdicion
                   ? `💾 ${t('sundayPage.updateSundaySpeeches')}`
                   : `💾 ${t('sundayPage.saveSundaySpeeches')}`}
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary btn-lg"
+              onClick={enviarNotificaciones}
+              disabled={enviandoWhatsApp || guardando}
+            >
+              {enviandoWhatsApp ? t('sundayPage.sendingWhatsApp') : `📲 ${t('sundayPage.sendWhatsApp')}`}
             </button>
           </div>
         )}

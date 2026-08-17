@@ -183,6 +183,7 @@ function ProtectedRoute() {
 
 function App() {
   const { isLoaded, isSignedIn } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <div className="App">
@@ -202,6 +203,9 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
+        <footer className="app-footer">
+          <a href="/privacy.html">{t('footer.privacy')}</a>
+        </footer>
       </Router>
     </div>
   );

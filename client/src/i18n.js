@@ -21,6 +21,9 @@ const resources = {
   es: {
     translation: {
       appName: 'Discursantes',
+      footer: {
+        privacy: 'Política de Privacidad',
+      },
       nav: {
         home: 'Inicio',
         newSunday: 'Nuevo Domingo',
@@ -70,6 +73,8 @@ const resources = {
         addFirst: 'Agregar el primero',
         name: 'Nombre',
         calling: 'Llamamiento',
+        phone: 'Teléfono (WhatsApp)',
+        phonePlaceholder: 'Ej: +56 9 1234 5678',
         lastSpeech: 'Ultimo Discurso',
         total: 'Total',
         newSpeakerTitle: 'Nuevo Discursante',
@@ -120,6 +125,11 @@ const resources = {
         saving: 'Guardando...',
         saveSundaySpeeches: 'Guardar Discursos del Domingo',
         updateSundaySpeeches: 'Actualizar Discursos del Domingo',
+        sendWhatsApp: 'Enviar notificaciones por WhatsApp',
+        sendingWhatsApp: 'Enviando notificaciones...',
+        whatsAppResult: 'Notificaciones: {{sent}} enviadas, {{skipped}} sin teléfono, {{failed}} fallidas',
+        whatsAppError: 'Error al enviar notificaciones: {{error}}',
+        whatsAppNoDate: 'Selecciona la fecha del domingo para enviar notificaciones',
       },
       topicsPage: {
         title: 'Temas',
@@ -135,6 +145,9 @@ const resources = {
   en: {
     translation: {
       appName: 'Speakers',
+      footer: {
+        privacy: 'Privacy Policy',
+      },
       nav: {
         home: 'Home',
         newSunday: 'New Sunday',
@@ -184,6 +197,8 @@ const resources = {
         addFirst: 'Add the first one',
         name: 'Name',
         calling: 'Calling',
+        phone: 'Phone (WhatsApp)',
+        phonePlaceholder: 'Ex: +1 555 123 4567',
         lastSpeech: 'Last Talk',
         total: 'Total',
         newSpeakerTitle: 'New Speaker',
@@ -234,6 +249,11 @@ const resources = {
         saving: 'Saving...',
         saveSundaySpeeches: 'Save Sunday Talks',
         updateSundaySpeeches: 'Update Sunday Talks',
+        sendWhatsApp: 'Send WhatsApp notifications',
+        sendingWhatsApp: 'Sending notifications...',
+        whatsAppResult: 'Notifications: {{sent}} sent, {{skipped}} without phone, {{failed}} failed',
+        whatsAppError: 'Error sending notifications: {{error}}',
+        whatsAppNoDate: 'Select the Sunday date to send notifications',
       },
       topicsPage: {
         title: 'Topics',

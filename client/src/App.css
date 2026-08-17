@@ -1620,3 +1620,19 @@ select.form-control {
     color: black;
   }
 }
+
+/* ===== Footer ===== */
+.app-footer {
+  padding: 1rem 1.25rem 2.5rem;
+  text-align: center;
+}
+
+.app-footer a {
+  color: var(--color-text-muted, inherit);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
