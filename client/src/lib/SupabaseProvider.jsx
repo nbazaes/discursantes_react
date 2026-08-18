@@ -4,10 +4,13 @@ import { createClerkSupabaseClient } from './supabaseClient';
 
 const SupabaseContext = createContext(null);
 
+const DEV_ORIGINS = import.meta.env.DEV ? ['http://localhost:3000'] : [];
+const AUTHORIZED_PARTIES = ['https://discursantes.nbazaes.app', ...DEV_ORIGINS];
+
 export function SupabaseProvider({ children }) {
   const { session } = useSession();
   const supabase = useMemo(
-    () => createClerkSupabaseClient(() => session?.getToken({ authorizedParties: ['https://discursantes.nbazaes.app', 'http://localhost:5173'] })),
+    () => createClerkSupabaseClient(() => session?.getToken({ authorizedParties: AUTHORIZED_PARTIES })),
     [session]
   );
 
