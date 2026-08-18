@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getTemas } from '../lib/db';
 import { useSupabase } from '../lib/SupabaseProvider';
+import { IconTopics } from '../components/Icons';
 
 function VerTemas() {
   const { t, i18n } = useTranslation();
@@ -34,7 +35,7 @@ function VerTemas() {
       ) : discursos.length === 0 ? (
         <div className="card">
           <div className="empty-state">
-            <div className="icon">📖</div>
+            <span className="icon" aria-hidden="true"><IconTopics size={40} /></span>
             <p>{t('topicsPage.empty')}</p>
           </div>
         </div>

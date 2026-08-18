@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDomingos, deleteDiscurso } from '../lib/db';
 import { useSupabase } from '../lib/SupabaseProvider';
+import { IconHistory } from '../components/Icons';
 
 function Historial() {
   const { t, i18n } = useTranslation();
@@ -50,7 +51,7 @@ function Historial() {
       ) : domingos.length === 0 ? (
         <div className="card">
           <div className="empty-state">
-            <div className="icon">📅</div>
+            <span className="icon" aria-hidden="true"><IconHistory size={40} /></span>
             <p>{t('historyPage.empty')}</p>
           </div>
         </div>
@@ -58,7 +59,7 @@ function Historial() {
         domingos.map((domingo, index) => (
           <div key={domingo.fecha} className="history-card" style={{ animationDelay: `${index * 80}ms` }}>
             <div className="history-card__date">
-              <span aria-hidden="true">📅</span>
+              <span className="history-card__node" aria-hidden="true" />
               {formatFecha(domingo.fecha)}
             </div>
 

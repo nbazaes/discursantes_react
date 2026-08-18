@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { SignIn, SignUp } from '@clerk/react';
 import { useTheme } from '../lib/theme';
 import { buildSignInElements } from '../lib/clerkAppearance';
+import { IconTree } from '../components/Icons';
 
 function AuthShell({ children, tagline }) {
   const { t } = useTranslation();
@@ -9,7 +10,7 @@ function AuthShell({ children, tagline }) {
   return (
     <div className="auth-shell">
       <div className="auth-brand">
-        <span className="auth-brand__icon" aria-hidden="true">📋</span>
+        <span className="auth-brand__icon" aria-hidden="true"><IconTree size={34} /></span>
         <span className="auth-brand__name">{t('appName')}</span>
       </div>
       <p className="auth-tagline">{tagline}</p>

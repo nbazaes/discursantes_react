@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDiscursantes, getSugerencias, getDiscursosPorFecha, replaceDiscursosFecha, createDiscursos } from '../lib/db';
 import { useSupabase } from '../lib/SupabaseProvider';
+import { IconSunday, IconSpark, IconPlus, IconClose, IconSave, IconWhatsApp, IconCalendar } from '../components/Icons';
 
 function SeleccionarDomingo() {
   const { t, i18n } = useTranslation();
@@ -16,6 +17,7 @@ function SeleccionarDomingo() {
   const [modoEdicion, setModoEdicion] = useState(false);
   const [cargandoFecha, setCargandoFecha] = useState(false);
   const [ocultos, setOcultos] = useState([]);
+  const [justWired, setJustWired] = useState([]);
 
   const cargarDiscursosFecha = useCallback(async (f) => {
     if (!f) return;
@@ -76,8 +78,10 @@ function SeleccionarDomingo() {
   };
 
   const agregarSugerido = (discursanteId) => {
-    if (entradas.some(e => String(e.DiscursanteId) === String(discursanteId))) return;
-    setEntradas([...entradas, { DiscursanteId: String(discursanteId), Tema: '' }]);
+    const id = String(discursanteId);
+    if (entradas.some(e => String(e.DiscursanteId) === id)) return;
+    setEntradas([...entradas, { DiscursanteId: id, Tema: '' }]);
+    setJustWired(prev => [...prev, id]);
   };
 
   const actualizarEntrada = (index, campo, valor) => {
@@ -155,6 +159,35 @@ function SeleccionarDomingo() {
     return d.toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
+  const formatFechaLarga = (f) => {
+    const d = new Date(f + 'T00:00:00');
+    const locale = i18n.resolvedLanguage?.startsWith('en') ? 'en-US' : 'es-ES';
+    return d.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' });
+  };
+
+  const diasDesde = (f) => {
+    if (!f) return null;
+    const d = new Date(f + 'T00:00:00');
+    const hoy = new Date();
+    return Math.floor((hoy - d) / 86400000);
+  };
+
+  const contadorDe = (s) => {
+    if (!s.ultimaFecha) return t('sundayPage.neverTag');
+    const dias = diasDesde(s.ultimaFecha);
+    return t('sundayPage.agoDays', { count: dias });
+  };
+
+  const nombreDiscursante = (id) => {
+    const d = discursantes.find(x => String(x.id) === String(id));
+    return d ? `${d.Apellidos}, ${d.Nombres}` : '';
+  };
+
+  const llamamientoDiscursante = (id) => {
+    const d = discursantes.find(x => String(x.id) === String(id));
+    return d?.Llamamiento || '';
+  };
+
   return (
     <div>
       <div className="page-header">
@@ -171,13 +204,17 @@ function SeleccionarDomingo() {
             onClick={() => setMensaje(null)}
             aria-label={t('common.close')}
           >
-            ✕
+            <IconClose size={16} />
           </button>
         </div>
       )}
 
+      {/* La fecha del domingo — la cabecera del registro */}
       <div className="card">
-        <h2>📅 {t('sundayPage.sundayDate')}</h2>
+        <div className="date-heading">
+          <span className="date-heading__emoji" aria-hidden="true"><IconSunday size={28} /></span>
+          {fecha ? formatFechaLarga(fecha) : '—'}
+        </div>
         <div className="domingo-header">
           <div className="form-group" style={{ margin: 0 }}>
             <input
@@ -185,51 +222,59 @@ function SeleccionarDomingo() {
               className="form-control"
               value={fecha}
               onChange={e => cambiarFecha(e.target.value)}
+              aria-label={t('sundayPage.sundayDate')}
             />
           </div>
-          {cargandoFecha && <span style={{ color: 'var(--color-text-muted)' }}>{t('sundayPage.loadingDate')}</span>}
+          {cargandoFecha && <span className="counter">{t('sundayPage.loadingDate')}</span>}
           {!cargandoFecha && modoEdicion && (
             <span className="status-badge status-badge--warning">
-              ✏️ {t('sundayPage.editingExistingSunday')}
+              {t('sundayPage.editingExistingSunday')}
             </span>
           )}
           {!cargandoFecha && !modoEdicion && fecha && (
             <span className="status-badge status-badge--success">
-              ✨ {t('sundayPage.newSunday')}
+              {t('sundayPage.newSunday')}
             </span>
           )}
         </div>
       </div>
 
-      {/* Sugerencias */}
+      {/* Nodos pendientes — las sugerencias de rotación */}
       <div className="card">
-        <h2>💡 {t('sundayPage.suggestionsTitle')}</h2>
+        <h2>{t('sundayPage.suggestionsTitle')}</h2>
         {sugerencias.length === 0 ? (
-          <p style={{ color: 'var(--color-text-muted)' }}>{t('sundayPage.noRegisteredSpeakers')}</p>
+          <p className="empty-state" style={{ marginTop: 'var(--space-md)' }}>
+            {t('sundayPage.noRegisteredSpeakers')}
+          </p>
         ) : (
-          <div className="suggestion-grid">
+          <div className="pending-nodes">
             {sugerencias
               .filter(s => !ocultos.includes(s.id))
               .slice(0, 10)
-              .map(s => (
+              .map((s, idx) => (
                 <div
                   key={s.id}
-                  className={`sugerencia-chip ${!s.ultimaFecha ? 'nunca' : ''}`}
+                  className={`sugerencia-node ${!s.ultimaFecha ? 'nunca' : ''}`}
                   onClick={() => agregarSugerido(s.id)}
                   title={s.ultimaFecha ? t('sundayPage.last', { date: formatFecha(s.ultimaFecha) }) : t('sundayPage.neverSpoken')}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={e => { if (e.key === 'Enter') agregarSugerido(s.id); }}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); agregarSugerido(s.id); } }}
+                  style={{ animationDelay: `${idx * 40}ms` }}
                 >
-                  <span>{s.Nombres} {s.Apellidos}</span>
-                  <small>{s.ultimaFecha ? formatFecha(s.ultimaFecha) : t('sundayPage.neverTag')}</small>
+                  <span className="sugerencia-node__main">
+                    <span className="sugerencia-node__name">{s.Nombres} {s.Apellidos}</span>
+                    {s.Llamamiento && <span className="sugerencia-node__calling">{s.Llamamiento}</span>}
+                  </span>
+                  <span className="counter">{contadorDe(s)}</span>
                   <button
                     type="button"
-                    className="sugerencia-chip__remove"
+                    className="sugerencia-node__remove"
                     onClick={e => { e.stopPropagation(); ocultarSugerencia(s.id); }}
                     title={t('common.delete')}
+                    aria-label={`${t('common.delete')} ${s.Nombres} ${s.Apellidos}`}
                   >
-                    ✕
+                    <IconClose size={14} />
                   </button>
                 </div>
               ))}
@@ -237,53 +282,74 @@ function SeleccionarDomingo() {
         )}
       </div>
 
-      {/* Entradas de discursantes */}
+      {/* La generación — los asignados sobre la línea */}
       <div className="card">
         <div className="card-header">
           <h2>{t('sundayPage.sundaySpeakers')}</h2>
-          <button className="btn btn-success" onClick={agregarEntrada}>+ {t('sundayPage.addSpeaker')}</button>
+          <button className="btn btn-success" onClick={agregarEntrada}>
+            <IconPlus size={16} /> {t('sundayPage.addSpeaker')}
+          </button>
         </div>
 
         {entradas.length === 0 ? (
-          <div className="empty-state" style={{ padding: '2rem' }}>
+          <div className="empty-state">
+            <span className="icon" aria-hidden="true"><IconSpark size={40} /></span>
             <p>{t('sundayPage.startHint')}</p>
           </div>
         ) : (
-          entradas.map((entrada, idx) => (
-            <div key={idx} className="entry-card">
-              <div className="form-group" style={{ margin: 0 }}>
-                <label>{t('sundayPage.selectSpeaker')}</label>
-                <select
-                  className="form-control"
-                  value={entrada.DiscursanteId}
-                  onChange={e => actualizarEntrada(idx, 'DiscursanteId', e.target.value)}
-                >
-                  <option value="">{t('sundayPage.selectOption')}</option>
-                  {discursantes.map(d => (
-                    <option key={d.id} value={d.id}>
-                      {d.Apellidos}, {d.Nombres}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group" style={{ margin: 0 }}>
-                <label>{t('sundayPage.topic')}</label>
-                <input
-                  className="form-control"
-                  value={entrada.Tema}
-                  onChange={e => actualizarEntrada(idx, 'Tema', e.target.value)}
-                  placeholder={t('sundayPage.topicPlaceholder')}
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-danger btn-sm entry-card__remove"
-                onClick={() => quitarEntrada(idx)}
+          <div className="generation">
+            {entradas.map((entrada, idx) => (
+              <div
+                key={idx}
+                className={`gen-node ${!entrada.DiscursanteId ? 'gen-node--manual' : ''} ${justWired.includes(String(entrada.DiscursanteId)) ? 'gen-node--just-wired' : ''}`}
               >
-                ✕ {t('common.delete')}
-              </button>
-            </div>
-          ))
+                <div className="gen-node__head">
+                  <div className="gen-node__identity">
+                    <div className="gen-node__name">
+                      {entrada.DiscursanteId ? nombreDiscursante(entrada.DiscursanteId) : t('sundayPage.selectOption')}
+                    </div>
+                    {entrada.DiscursanteId && llamamientoDiscursante(entrada.DiscursanteId) && (
+                      <div className="gen-node__calling">{llamamientoDiscursante(entrada.DiscursanteId)}</div>
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className="gen-node__remove"
+                    onClick={() => quitarEntrada(idx)}
+                    aria-label={`${t('common.delete')} ${entrada.DiscursanteId ? nombreDiscursante(entrada.DiscursanteId) : t('common.unknown')}`}
+                  >
+                    <IconClose size={16} />
+                  </button>
+                </div>
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <label htmlFor={`sel-${idx}`}>{t('sundayPage.selectSpeaker')}</label>
+                  <select
+                    id={`sel-${idx}`}
+                    className="form-control"
+                    value={entrada.DiscursanteId}
+                    onChange={e => actualizarEntrada(idx, 'DiscursanteId', e.target.value)}
+                  >
+                    <option value="">{t('sundayPage.selectOption')}</option>
+                    {discursantes.map(d => (
+                      <option key={d.id} value={d.id}>
+                        {d.Apellidos}, {d.Nombres}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <label htmlFor={`tema-${idx}`}>{t('sundayPage.topic')}</label>
+                  <input
+                    id={`tema-${idx}`}
+                    className="form-control"
+                    value={entrada.Tema}
+                    onChange={e => actualizarEntrada(idx, 'Tema', e.target.value)}
+                    placeholder={t('sundayPage.topicPlaceholder')}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         )}
 
         {entradas.length > 0 && (
@@ -294,11 +360,12 @@ function SeleccionarDomingo() {
               onClick={guardar}
               disabled={guardando || enviandoWhatsApp}
             >
+              <IconSave size={18} />
               {guardando
                 ? t('sundayPage.saving')
                 : modoEdicion
-                  ? `💾 ${t('sundayPage.updateSundaySpeeches')}`
-                  : `💾 ${t('sundayPage.saveSundaySpeeches')}`}
+                  ? t('sundayPage.updateSundaySpeeches')
+                  : t('sundayPage.saveSundaySpeeches')}
             </button>
             <button
               type="button"
@@ -306,7 +373,8 @@ function SeleccionarDomingo() {
               onClick={enviarNotificaciones}
               disabled={enviandoWhatsApp || guardando}
             >
-              {enviandoWhatsApp ? t('sundayPage.sendingWhatsApp') : `📲 ${t('sundayPage.sendWhatsApp')}`}
+              <IconWhatsApp size={18} />
+              {enviandoWhatsApp ? t('sundayPage.sendingWhatsApp') : t('sundayPage.sendWhatsApp')}
             </button>
           </div>
         )}

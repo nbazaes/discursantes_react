@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDiscursantes, createDiscursante, updateDiscursante, deleteDiscursante } from '../lib/db';
 import { useSupabase } from '../lib/SupabaseProvider';
+import { IconSearch, IconPlus, IconSpeakers } from '../components/Icons';
 
 function Discursantes() {
   const { t, i18n } = useTranslation();
@@ -103,7 +104,7 @@ function Discursantes() {
           <h2>{t('speakersPage.listTitle')}</h2>
           <div className="card-header__actions">
             <div className="search">
-              <span className="search__icon">🔍</span>
+              <span className="search__icon"><IconSearch size={16} /></span>
               <input
                 type="text"
                 className="search__input"
@@ -113,7 +114,7 @@ function Discursantes() {
                 aria-label={t('speakersPage.search')}
               />
             </div>
-            <button className="btn btn-primary" onClick={abrirCrear}>+ {t('speakersPage.newSpeaker')}</button>
+            <button className="btn btn-primary" onClick={abrirCrear}><IconPlus size={16} /> {t('speakersPage.newSpeaker')}</button>
           </div>
         </div>
 
@@ -121,7 +122,7 @@ function Discursantes() {
           <div className="loading">{t('common.loading')}</div>
         ) : discursantes.length === 0 ? (
           <div className="empty-state">
-            <div className="icon">👥</div>
+            <span className="icon" aria-hidden="true"><IconSpeakers size={40} /></span>
             <p>{t('speakersPage.noSpeakers')}</p>
             <button className="btn btn-primary" onClick={abrirCrear} style={{ marginTop: '1rem' }}>
               {t('speakersPage.addFirst')}
@@ -129,7 +130,7 @@ function Discursantes() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="empty-state">
-            <div className="icon">🔍</div>
+            <span className="icon" aria-hidden="true"><IconSearch size={40} /></span>
             <p>{t('speakersPage.noSearchResults')}</p>
           </div>
         ) : (

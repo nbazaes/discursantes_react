@@ -12,13 +12,14 @@ import { STORAGE_KEY, SUPPORTED_LANGUAGES } from './i18n';
 import { useTheme } from './lib/theme';
 import { SignInPage, SignUpPage } from './pages/AuthPage';
 import { buildUserButtonElements } from './lib/clerkAppearance';
+import { IconTree, IconSunday, IconSpeakers, IconTopics, IconHistory, IconSun, IconMoon, IconMenu, IconClose, IconWard } from './components/Icons';
 
 function WardBadge() {
   const { organization } = useOrganization();
   if (!organization) return null;
   return (
     <span className="ward-badge" title={organization.name}>
-      <span aria-hidden="true">🏛️</span>
+      <IconWard size={15} />
       {organization.name}
     </span>
   );
@@ -40,11 +41,11 @@ function NavBar() {
   const { theme, toggleTheme } = useTheme();
 
   const links = [
-    { to: '/', label: t('nav.home'), icon: '🏠' },
-    { to: '/seleccionar-domingo', label: t('nav.newSunday'), icon: '🗓️' },
-    { to: '/discursantes', label: t('nav.speakers'), icon: '👥' },
-    { to: '/temas', label: t('nav.topics'), icon: '📖' },
-    { to: '/historial', label: t('nav.history'), icon: '📅' },
+    { to: '/', label: t('nav.home'), icon: IconTree },
+    { to: '/seleccionar-domingo', label: t('nav.newSunday'), icon: IconSunday },
+    { to: '/discursantes', label: t('nav.speakers'), icon: IconSpeakers },
+    { to: '/temas', label: t('nav.topics'), icon: IconTopics },
+    { to: '/historial', label: t('nav.history'), icon: IconHistory },
   ];
 
   const currentLanguage = SUPPORTED_LANGUAGES.includes(i18n.resolvedLanguage)
@@ -63,7 +64,7 @@ function NavBar() {
       <nav className="navbar">
         <div className="navbar-brand">
           <Link to="/" onClick={closeMenu}>
-            <span className="brand-icon">📋</span>
+            <span className="brand-icon"><IconTree size={26} /></span>
             {t('appName')}
           </Link>
         </div>
@@ -77,7 +78,8 @@ function NavBar() {
                   to={link.to}
                   className={location.pathname === link.to ? 'active' : ''}
                 >
-                  <span aria-hidden="true">{link.icon}</span>
+                  <span className="nav-node" aria-hidden="true" />
+                  <span aria-hidden="true"><link.icon size={18} /></span>
                   {link.label}
                 </Link>
               ))}
@@ -90,7 +92,7 @@ function NavBar() {
               aria-label={t('nav.theme', { theme: theme === 'dark' ? t('nav.dark') : t('nav.light') })}
               title={t('nav.theme', { theme: theme === 'dark' ? t('nav.dark') : t('nav.light') })}
             >
-              {theme === 'dark' ? '☀️' : '🌙'}
+              {theme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
             </button>
 
             <div className="lang-switch" aria-label={t('nav.language')}>
@@ -118,7 +120,7 @@ function NavBar() {
           aria-controls="mobile-menu"
           aria-label={t('nav.menu')}
         >
-          {menuOpen ? '✕' : '☰'}
+          {menuOpen ? <IconClose size={20} /> : <IconMenu size={20} />}
         </button>
       </nav>
 
@@ -135,7 +137,8 @@ function NavBar() {
               className={location.pathname === link.to ? 'active' : ''}
               onClick={closeMenu}
             >
-              <span aria-hidden="true">{link.icon}</span>
+              <span className="nav-node" aria-hidden="true" />
+              <span aria-hidden="true"><link.icon size={20} /></span>
               {link.label}
             </Link>
           ))}
@@ -148,7 +151,7 @@ function NavBar() {
             onClick={toggleTheme}
             aria-label={t('nav.theme', { theme: theme === 'dark' ? t('nav.dark') : t('nav.light') })}
           >
-            {theme === 'dark' ? '☀️' : '🌙'}
+            {theme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
           </button>
 
           <div className="lang-switch" aria-label={t('nav.language')}>

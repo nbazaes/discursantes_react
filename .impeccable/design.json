@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-17T00:00:00.000Z",
+  "title": "Design System: Discursantes",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Púrpura Litúrgico", "canonical": "#5B3A8C", "tonalRamp": ["#1d1030", "#2a1747", "#3a1f5f", "#4a2f73", "#5B3A8C", "#7b5db8", "#9B7ED8", "#d4c6ee"] },
+      "primary-dark": { "role": "primary", "displayName": "Púrpura Profundo", "canonical": "#4A2F73", "tonalRamp": ["#1a1030", "#241843", "#2f1f57", "#3a276b", "#4A2F73", "#6b4fa0", "#8f75c7", "#c8bce6"] },
+      "primary-light": { "role": "primary", "displayName": "Púrpura Suave", "canonical": "#8B6CB8", "tonalRamp": ["#2e2247", "#3e2e5d", "#503b74", "#64488d", "#8B6CB8", "#a98fd0", "#c9b8e2", "#e9e2f4"] },
+      "primary-fade": { "role": "primary", "displayName": "Velo Púrpura", "canonical": "rgba(91, 58, 140, 0.08)", "tonalRamp": ["rgba(91,58,140,0.08)", "rgba(91,58,140,0.12)", "rgba(91,58,140,0.18)", "rgba(91,58,140,0.25)", "rgba(91,58,140,0.35)", "rgba(91,58,140,0.5)", "rgba(91,58,140,0.7)", "rgba(91,58,140,0.9)"] },
+      "accent": { "role": "secondary", "displayName": "Ámbar Vela", "canonical": "#d97706", "tonalRamp": ["#3d2400", "#573300", "#704200", "#8f5605", "#d97706", "#e08a1f", "#f0ab4a", "#fde9cf"] },
+      "accent-light": { "role": "secondary", "displayName": "Ámbar Vela Alta", "canonical": "#f59e0b", "tonalRamp": ["#3d2400", "#573300", "#704200", "#8f5605", "#d97706", "#f59e0b", "#fbbf24", "#fde9cf"] },
+      "success": { "role": "tertiary", "displayName": "Verde Sacristía", "canonical": "#4d7c59", "tonalRamp": ["#183022", "#24402f", "#30503c", "#3d6149", "#4d7c59", "#6fa37c", "#94c2a0", "#e0efe4"] },
+      "danger": { "role": "tertiary", "displayName": "Rojo Rubrica", "canonical": "#be123c", "tonalRamp": ["#3d0713", "#5c0b1e", "#7c0e29", "#9f1239", "#be123c", "#e11d48", "#f0526f", "#fde3e8"] },
+      "warning": { "role": "tertiary", "displayName": "Ocre de Aviso", "canonical": "#b45309", "tonalRamp": ["#3a1b02", "#572a04", "#753906", "#924608", "#b45309", "#d97706", "#f0ab4a", "#fde9cf"] },
+      "warning-bg": { "role": "tertiary", "displayName": "Crema de Aviso", "canonical": "#fffbeb", "tonalRamp": ["#3f2d0b", "#6b4e14", "#96701d", "#c3943a", "#e6c56a", "#fbe6b0", "#fffbeb", "#fffdf5"] },
+      "info": { "role": "tertiary", "displayName": "Azul Lectionario", "canonical": "#2b6cb0", "tonalRamp": ["#0e2440", "#14365c", "#1b4978", "#235b95", "#2b6cb0", "#4a87c9", "#7ca9dd", "#e1ecf8"] },
+      "bg": { "role": "neutral", "displayName": "Papel Dominical", "canonical": "#faf9f7", "tonalRamp": ["#1F1A2E", "#3a3450", "#5a5472", "#837d98", "#b6b0c4", "#d9d5e2", "#faf9f7", "#fffefe"] },
+      "surface": { "role": "neutral", "displayName": "Blanco Altar", "canonical": "#ffffff", "tonalRamp": ["#2a2342", "#3b335c", "#4f4574", "#6b5f92", "#9a8fb8", "#c8c0dc", "#ffffff", "#ffffff"] },
+      "surface-raised": { "role": "neutral", "displayName": "Blanco Altar Elevado", "canonical": "#ffffff", "tonalRamp": ["#342b50", "#443a63", "#584d7b", "#72679a", "#a093bb", "#cec6e0", "#ffffff", "#ffffff"] },
+      "border": { "role": "neutral", "displayName": "Lino", "canonical": "#e5e0d8", "tonalRamp": ["#4b4458", "#5d556c", "#736a84", "#8f86a0", "#b5adc2", "#d2ccda", "#e5e0d8", "#f2efea"] },
+      "text": { "role": "neutral", "displayName": "Tinta", "canonical": "#1f2937", "tonalRamp": ["#f3f4f6", "#c4c8d0", "#9ca3af", "#6b7280", "#4b5563", "#374151", "#1f2937", "#111827"] },
+      "text-muted": { "role": "neutral", "displayName": "Tinta Suave", "canonical": "#6b7280", "tonalRamp": ["#9ca3af", "#8a91a1", "#7c8496", "#6b7280", "#5a6170", "#4a5160", "#3a4050", "#2a3040"] },
+      "text-inverse": { "role": "neutral", "displayName": "Tinta Inversa", "canonical": "#ffffff", "tonalRamp": ["#1f2937", "#374151", "#4b5563", "#6b7280", "#9ca3af", "#d1d5db", "#ffffff", "#ffffff"] },
+      "line": { "role": "neutral", "displayName": "Línea en Reposo", "canonical": "rgba(91, 58, 140, 0.08)", "tonalRamp": ["rgba(91,58,140,0.08)", "rgba(91,58,140,0.12)", "rgba(91,58,140,0.18)", "rgba(91,58,140,0.25)", "rgba(91,58,140,0.35)", "rgba(91,58,140,0.5)", "rgba(91,58,140,0.7)", "rgba(91,58,140,0.9)"] },
+      "line-active": { "role": "primary", "displayName": "Línea Activa", "canonical": "#5B3A8C", "tonalRamp": ["#1d1030", "#2a1747", "#3a1f5f", "#4a2f73", "#5B3A8C", "#7b5db8", "#9B7ED8", "#d4c6ee"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page titles; the record heading. Crimson Pro only." },
+      "headline": { "displayName": "Headline", "purpose": "Card titles." },
+      "title": { "displayName": "Title", "purpose": "Dashboard node titles and history dates." },
+      "body": { "displayName": "Body", "purpose": "All functional copy; Source Sans 3." },
+      "label": { "displayName": "Label", "purpose": "Table headers and micro-labels; 0.75rem/700/uppercase/.08em." },
+      "mono": { "displayName": "Counter", "purpose": "Rotation measurement only; tabular numerals." }
+    },
+    "shadows": [
+      { "name": "resting", "value": "0 1px 2px rgba(31, 41, 55, 0.04)", "purpose": "Cards and navbar at rest. Dark: rgba(0,0,0,0.3)." },
+      { "name": "raised", "value": "0 4px 12px rgba(31, 41, 55, 0.08)", "purpose": "Hovered nodes and buttons. Dark: 0.35." },
+      { "name": "lifted", "value": "0 12px 32px rgba(31, 41, 55, 0.14)", "purpose": "Hovered dashboard nodes, Clerk cards and popovers. Dark: 0.45." },
+      { "name": "floating", "value": "0 24px 60px rgba(31, 41, 55, 0.18)", "purpose": "Modals only. Dark: 0.55." }
+    ],
+    "motion": [
+      { "name": "fast", "value": "150ms ease", "purpose": "State transitions: hover, border, color." },
+      { "name": "base", "value": "250ms ease", "purpose": "Panel and layout transitions." },
+      { "name": "slow", "value": "400ms cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Entrance motion and modals." },
+      { "name": "wireIn", "value": "0.5s cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "The single authored moment: a speaker joining the generation flashes a purple ring to the resting shadow." },
+      { "name": "fadeInUp", "value": "0.4-0.6s cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Staggered node entrance; 40-80ms stagger." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single dominant action per screen; solid purple, one per viewport.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 3h11.5L20 6.5V21H5z\"/><path d=\"M8 3v6.5h8V3\"/><path d=\"M8 21v-7.5h8V21\"/></svg>Guardar Discursos del Domingo</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #5B3A8C; color: #fff; border: none; border-radius: 10px; padding: 10px 18px; font: 600 0.95rem 'Source Sans 3', system-ui, sans-serif; line-height: 1; min-height: 40px; cursor: pointer; transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease; } .ds-btn-primary:hover { background: #4A2F73; box-shadow: 0 4px 12px rgba(91,58,140,0.08); } .ds-btn-primary:focus-visible { outline: 2px solid #5B3A8C; outline-offset: 2px; } .ds-btn-primary:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outline counterweight; hover lifts the border toward the primary.",
+      "html": "<button class=\"ds-btn-secondary\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.5a8.5 8.5 0 0 1 8.5 8.5 8.5 8.5 0 0 1-12.8 7.4L3 21l1.6-4.6A8.5 8.5 0 0 1 12 3.5Z\"/><path d=\"M9 9.5h6M9 12.5h4\"/></svg>Enviar por WhatsApp</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: #ffffff; color: #1f2937; border: 1px solid #e5e0d8; border-radius: 10px; padding: 10px 18px; font: 600 0.95rem 'Source Sans 3', system-ui, sans-serif; line-height: 1; min-height: 40px; cursor: pointer; transition: all 0.15s ease; } .ds-btn-secondary:hover { border-color: #8B6CB8; color: #5B3A8C; } .ds-btn-secondary:focus-visible { outline: 2px solid #5B3A8C; outline-offset: 2px; } .ds-btn-secondary:active { transform: scale(0.97); }"
+    },
+    {
+      "name": "Suggestion Node",
+      "kind": "chip",
+      "refersTo": "suggestion-node",
+      "description": "The fair-rotation UI: a pending node on a dashed connector with an exact mono counter.",
+      "html": "<button class=\"ds-suggestion\"><span class=\"ds-suggestion__dot\"></span><span class=\"ds-suggestion__main\"><span class=\"ds-suggestion__name\">María González</span><span class=\"ds-suggestion__calling\">Secretaria</span></span><span class=\"ds-suggestion__counter\">hace 214 días</span></button>",
+      "css": ".ds-suggestion { display: flex; align-items: center; gap: 16px; width: 100%; padding: 11px 16px; background: #ffffff; border: 1px dashed #e5e0d8; border-radius: 10px; font-family: inherit; color: #1f2937; cursor: pointer; text-align: left; transition: all 0.15s ease; } .ds-suggestion__dot { width: 11px; height: 11px; border-radius: 50%; border: 2px dashed #8B6CB8; flex-shrink: 0; transition: all 0.15s ease; } .ds-suggestion__main { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; } .ds-suggestion__name { font: 600 1.02rem 'Crimson Pro', Georgia, serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-suggestion__calling { font: 400 0.8rem 'Source Sans 3', system-ui, sans-serif; color: #6b7280; } .ds-suggestion__counter { font: 500 0.78rem 'JetBrains Mono', ui-monospace, monospace; color: #6b7280; font-variant-numeric: tabular-nums; white-space: nowrap; } .ds-suggestion:hover { border-color: #5B3A8C; background: rgba(91,58,140,0.08); } .ds-suggestion:hover .ds-suggestion__dot { border-style: solid; border-color: #5B3A8C; background: #5B3A8C; } .ds-suggestion:focus-visible { outline: 2px solid #5B3A8C; outline-offset: 2px; }"
+    },
+    {
+      "name": "Never-Spoken Suggestion",
+      "kind": "chip",
+      "refersTo": "suggestion-node-nunca",
+      "description": "Amber variant: attention, nothing wrong. Ocre name and counter on cream.",
+      "html": "<button class=\"ds-suggestion ds-suggestion--nunca\"><span class=\"ds-suggestion__dot\"></span><span class=\"ds-suggestion__main\"><span class=\"ds-suggestion__name\">Pedro Soto</span><span class=\"ds-suggestion__calling\">Sumo Sacerdote</span></span><span class=\"ds-suggestion__counter\">(nunca)</span></button>",
+      "css": ".ds-suggestion--nunca { border-color: rgba(217,119,6,0.4); background: #fffbeb; } .ds-suggestion--nunca .ds-suggestion__dot { border-color: #d97706; } .ds-suggestion--nunca .ds-suggestion__name { color: #b45309; } .ds-suggestion--nunca .ds-suggestion__counter { color: #b45309; font-weight: 600; } .ds-suggestion--nunca:hover { border-color: #d97706; background: rgba(217,119,6,0.12); } .ds-suggestion--nunca:hover .ds-suggestion__dot { border-style: solid; border-color: #d97706; background: #d97706; }"
+    },
+    {
+      "name": "Generation Node",
+      "kind": "card",
+      "refersTo": "gen-node",
+      "description": "An assigned speaker beaded on the generation line: serif name, calling, topic input.",
+      "html": "<div class=\"ds-gennode\"><div class=\"ds-gennode__head\"><div class=\"ds-gennode__identity\"><div class=\"ds-gennode__name\">González, María</div><div class=\"ds-gennode__calling\">Secretaria</div></div></div><label class=\"ds-gennode__label\" for=\"sel\">Discursante</label><select class=\"ds-gennode__field\" id=\"sel\"><option>González, María</option></select><label class=\"ds-gennode__label\" for=\"tema\">Tema</label><input class=\"ds-gennode__field\" id=\"tema\" placeholder=\"Tema del discurso\"></div>",
+      "css": ".ds-gennode { background: #ffffff; border: 1px solid #e5e0d8; border-radius: 10px; padding: 16px; box-shadow: 0 1px 2px rgba(31,41,55,0.04); position: relative; } .ds-gennode__name { font: 600 1.1rem 'Crimson Pro', Georgia, serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-gennode__calling { font: 400 0.8rem 'Source Sans 3', system-ui, sans-serif; color: #6b7280; } .ds-gennode__label { display: block; margin: 8px 0 4px; font: 700 0.78rem 'Source Sans 3', system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; } .ds-gennode__field { width: 100%; padding: 9px 13px; border: 1.5px solid #e5e0d8; border-radius: 10px; background: #faf9f7; font: 400 0.95rem 'Source Sans 3', system-ui, sans-serif; color: #1f2937; min-height: 40px; } .ds-gennode__field:focus { outline: none; border-color: #5B3A8C; box-shadow: 0 0 0 4px rgba(91,58,140,0.08); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Nav links are nodes: a connector dot that fills purple when the route is active.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav__link\" href=\"#\"><span class=\"ds-nav__dot\"></span>Inicio</a><a class=\"ds-nav__link ds-nav__link--active\" href=\"#\"><span class=\"ds-nav__dot\"></span>Nuevo Domingo</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 4px; } .ds-nav__link { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 10px; font: 500 0.95rem 'Source Sans 3', system-ui, sans-serif; color: #6b7280; text-decoration: none; position: relative; transition: all 0.15s ease; } .ds-nav__dot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid #e5e0d8; transition: all 0.15s ease; } .ds-nav__link:hover { background: rgba(91,58,140,0.08); color: #5B3A8C; } .ds-nav__link:hover .ds-nav__dot { border-color: #8B6CB8; } .ds-nav__link--active { background: rgba(91,58,140,0.08); color: #5B3A8C; font-weight: 600; } .ds-nav__link--active .ds-nav__dot { background: #5B3A8C; border-color: #5B3A8C; } .ds-nav__link--active::after { content: ''; position: absolute; bottom: -1px; left: 13px; right: 13px; height: 2px; background: #5B3A8C; border-radius: 2px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "1.5px Lino stroke on Blanco Altar; focus ring is a 4px Velo Púrpura halo.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Tema del discurso\">",
+      "css": ".ds-input { width: 100%; padding: 12px 16px; border: 1.5px solid #e5e0d8; border-radius: 10px; background: #ffffff; font: 400 1rem 'Source Sans 3', system-ui, sans-serif; color: #1f2937; min-height: 44px; transition: border-color 0.15s ease, box-shadow 0.15s ease; } .ds-input::placeholder { color: #6b7280; opacity: 0.7; } .ds-input:hover { border-color: #8B6CB8; } .ds-input:focus { outline: none; border-color: #5B3A8C; box-shadow: 0 0 0 4px rgba(91,58,140,0.08); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge-info",
+      "description": "Semantic state pills: tinted background, saturated text, full pill. Never grey.",
+      "html": "<span class=\"ds-badge\">03 ago 2026</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 11px; border-radius: 999px; background: rgba(43,108,176,0.1); color: #2b6cb0; font: 600 0.8rem 'Source Sans 3', system-ui, sans-serif; line-height: 1.4; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Árbol de Generaciones",
+    "overview": "Discursantes looks like what it is: the ward is one family, and every member is a node on the family tree. Sundays are generations — a row of connected nodes — and planning one is pulling the right people onto the line. The signature grammar is the connected node: members and Sundays are nodes, and nodes only ever appear joined by ruled ink lines. A purple line is a speaker wired into a Sunday; a dashed connector is a speaker waiting to be wired in. Nothing in the product floats unconnected.\n\nThe mood is warm, orderly, reverent, and unmistakably operational. This is an Operate-mode tool — ward leaders plan the upcoming Sunday on their phone, between meetings, in low light — so scanability and the real usage scene outrank atmosphere. But the interface refuses to be generic: the connection lines carry the composition, the rotation counters are exact mono readouts, and the whole surface reads like a well-kept record book rather than an admin panel.\n\nThe palette is pinned by the client and never drifts: Púrpura Litúrgico is the action and the wire; Ámbar Vela marks who has never spoken; the warm paper neutrals keep the surface a record, not a dashboard. A matched dark capilla nocturna register carries the same system in a night key. Icons are thin-stroke line SVGs drawn in the world's own ink-line grammar — never emoji.",
+    "keyCharacteristics": [
+      "Connected nodes: people and Sundays are nodes joined by ruled ink lines",
+      "The generation line (horizontal on desktop, a vertical spine on mobile) with connector ticks beading assigned speakers into the Sunday",
+      "Pending suggestion nodes wait on dashed connectors with exact day counters",
+      "Editorial serif display voice (Crimson Pro) over a utilitarian sans body, with a mono face reserved for rotation measurement",
+      "Liturgical purple + candle amber on warm paper; matched dark capilla nocturna",
+      "Drawn line icons (thin 1.6px stroke), never emoji or glyph substitutes",
+      "Staggered fadeInUp entry; a single authored wireIn flash when a speaker joins the generation"
+    ],
+    "rules": [
+      { "name": "La Regla del Nodo", "body": "Every person and every Sunday is a node, and a node never floats unconnected: it hangs from the generation spine, a branch stub, a nav dot, or a connector tick. If an element has no connection line, it does not belong on the page.", "section": "colors" },
+      { "name": "La Regla de la Línea", "body": "Purple wires; amber waits. A solid purple line means wired into this Sunday; a dashed connector means pending. A line is only ever drawn for a real connection — never as decoration.", "section": "colors" },
+      { "name": "La Regla del Púrpura Único", "body": "Only one filled purple element dominates any viewport. Purple on ≤10% of the screen; its scarcity is its authority.", "section": "colors" },
+      { "name": "La Regla del Ámbar", "body": "Amber means this needs your attention but nothing is wrong — never-spoken speakers and their counters. It never fills a primary action and never signals an error.", "section": "colors" },
+      { "name": "La Regla Semántica", "body": "Verde, Rojo, Ocre, and Azul exist only to describe state. They never decorate, never brand, and never appear in large fills.", "section": "colors" },
+      { "name": "La Regla de las Dos Voces", "body": "Crimson Pro speaks only for headings, dates, names, and the brand; Source Sans 3 handles everything functional. Never set body copy in the serif; never set a page title in the sans.", "section": "typography" },
+      { "name": "La Regla del Rótulo", "body": "Labels and table headers are small, loud, and quiet at once: 0.75rem, 700 weight, uppercase, 0.08em tracking, always muted — structure you can scan, not read.", "section": "typography" },
+      { "name": "La Regla del Contador", "body": "The rotation metric is always an exact mono readout — hace 214 días or the amber (nunca). Fairness is measured, never implied; no decorative badges, no rounded approximations.", "section": "typography" },
+      { "name": "La Regla del Ascenso", "body": "Elevation is earned by interaction. At rest, surfaces keep only the resting shadow; the lifted and floating registers exist solely as feedback to hover, focus, or overlay.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do build every color from the CSS custom properties — both themes and the Clerk overrides consume them; a hard-coded hex breaks dark mode silently.",
+      "Do draw every connection as a real connection: purple wire = wired in, dashed connector = pending, tick + dot = on the spine (La Regla de la Línea).",
+      "Do show the rotation as an exact mono readout with tabular numerals (La Regla del Contador).",
+      "Do use Crimson Pro for titles, dates, names, and the brand; Source Sans 3 for everything functional (La Regla de las Dos Voces).",
+      "Do draw icons as thin-stroke line SVGs in the world's grammar — never emoji, never a glyph standing in for an icon.",
+      "Do let elevation answer interaction: resting shadow at rest, lifted on hover, floating for modals only (La Regla del Ascenso).",
+      "Do use the staggered fadeInUp entrance for new surfaces and the single wireIn flash when a speaker joins the generation; honor prefers-reduced-motion.",
+      "Do theme the browser surfaces from the palette: selection, caret, scrollbar, focus ring.",
+      "Do use the violet/purple palette exactly as pinned — Púrpura Litúrgico action and wire, Ámbar Vela for never-spoken attention."
+    ],
+    "donts": [
+      "Don't introduce new hues; the palette is purple + amber + the semantic set, and La Regla Semántica keeps state colors out of decoration.",
+      "Don't flatten the generation line back into separate cards — nodes without a connection are not the world (La Regla del Nodo).",
+      "Don't fill large areas with Púrpura Litúrgico — one dominant purple element per viewport (La Regla del Púrpura Único); use Velo Púrpura for presence.",
+      "Don't use Ámbar Vela for primary actions or errors (La Regla del Ámbar).",
+      "Don't add shadows to resting surfaces beyond the resting token, or stack shadows on top of the connection lines.",
+      "Don't set body copy in Crimson Pro or a page title in Source Sans 3.",
+      "Don't draw a line that is not a real connection; decorative rules are a different world's grammar."
+    ]
+  }
+}

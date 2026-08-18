@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { IconSunday, IconSpeakers, IconTopics, IconHistory, IconCalendar } from '../components/Icons';
 
 function Dashboard() {
   const { t, i18n } = useTranslation();
@@ -15,25 +16,25 @@ function Dashboard() {
   const cards = [
     {
       to: '/seleccionar-domingo',
-      icon: '🗓️',
+      icon: IconSunday,
       title: t('dashboard.sundaySelectionTitle'),
       desc: t('dashboard.sundaySelectionDesc'),
     },
     {
       to: '/discursantes',
-      icon: '👥',
+      icon: IconSpeakers,
       title: t('dashboard.speakersTitle'),
       desc: t('dashboard.speakersDesc'),
     },
     {
       to: '/temas',
-      icon: '📖',
+      icon: IconTopics,
       title: t('dashboard.topicsTitle'),
       desc: t('dashboard.topicsDesc'),
     },
     {
       to: '/historial',
-      icon: '📅',
+      icon: IconHistory,
       title: t('dashboard.historyTitle'),
       desc: t('dashboard.historyDesc'),
     },
@@ -45,19 +46,26 @@ function Dashboard() {
         <h1>{t('dashboard.title')}</h1>
         <p>{t('dashboard.subtitle')}</p>
         <div className="page-header__meta">
-          <span>📅</span>
+          <IconCalendar size={15} />
           <span>{todayLabel}</span>
         </div>
       </div>
 
-      <div className="dashboard-cards">
-        {cards.map((card, index) => (
-          <Link key={card.to} to={card.to} className="dash-card" style={{ animationDelay: `${index * 75}ms` }}>
-            <div className="card-icon">{card.icon}</div>
-            <h3>{card.title}</h3>
-            <p>{card.desc}</p>
-          </Link>
-        ))}
+      <div className="dashboard-tree">
+        <div className="dashboard-cards">
+          {cards.map((card, index) => (
+            <Link
+              key={card.to}
+              to={card.to}
+              className="dash-node"
+              style={{ animationDelay: `${index * 75}ms` }}
+            >
+              <div className="card-icon"><card.icon size={32} /></div>
+              <h3>{card.title}</h3>
+              <p>{card.desc}</p>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
