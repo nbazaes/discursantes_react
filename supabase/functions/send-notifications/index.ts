@@ -92,29 +92,51 @@ async function sendTemplate(to, params) {
   return { ok: true, wamid: data.messages?.[0]?.id ?? null };
 }
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'authorization, apikey, content-type, x-client-info',
+  'Access-Control-Max-Age': '86400',
+};
+
+function respond(body, status = 200, extraHeaders = {}) {
+  return new Response(body, {
+    status,
+    headers: {
+      ...corsHeaders,
+      'Content-Type': 'application/json',
+      ...extraHeaders,
+    },
+  });
+}
+
 Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { status: 200, headers: corsHeaders });
+  }
+
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+    return respond('Method not allowed', 405, { 'Content-Type': 'text/plain' });
   }
 
   const orgId = currentOrgId(req.headers.get('authorization'));
   if (!orgId) {
-    return new Response('Unauthorized', { status: 401 });
+    return respond('Unauthorized', 401);
   }
 
   if (!accessToken || !phoneNumberId || !templateName) {
-    return new Response('WhatsApp not configured', { status: 500 });
+    return respond(JSON.stringify({ error: 'WhatsApp not configured' }), 500);
   }
 
   let body;
   try {
     body = await req.json();
   } catch {
-    return new Response('Invalid payload', { status: 400 });
+    return respond(JSON.stringify({ error: 'Invalid payload' }), 400);
   }
   const fecha = body?.fecha;
   if (!fecha) {
-    return new Response('Missing fecha', { status: 400 });
+    return respond(JSON.stringify({ error: 'Missing fecha' }), 400);
   }
 
   const { data: discursos, error } = await supabase
@@ -124,7 +146,7 @@ Deno.serve(async (req) => {
     .eq('ward_id', orgId);
 
   if (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return respond(JSON.stringify({ error: error.message }), 500);
   }
 
   const sent = [];
@@ -165,8 +187,5 @@ Deno.serve(async (req) => {
     }
   }
 
-  return new Response(
-    JSON.stringify({ sent, skipped, failed }),
-    { status: 200, headers: { 'Content-Type': 'application/json' } }
-  );
+  return respond(JSON.stringify({ sent, skipped, failed }));
 });
