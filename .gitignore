@@ -28,3 +28,13 @@ server_dotgit_backup.tgz
 ERDDiagram1.png
 ModeloER.mdj
 local/
+
+# Agent tooling
+.opencode/
+.agents/
+.codex/
+
+# Impeccable session state (design system in .impeccable/ stays tracked)
+.impeccable/questions/
+.impeccable/review/
+client/.impeccable/

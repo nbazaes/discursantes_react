@@ -9,6 +9,8 @@
 //   WHATSAPP_ACCESS_TOKEN=... WHATSAPP_PHONE_NUMBER_ID=... WHATSAPP_TEMPLATE_NAME=...
 //   SUPABASE_SERVICE_ROLE_KEY=...):
 // - WHATSAPP_TEMPLATE_NAME: name of the approved template above.
+// - WHATSAPP_TEMPLATE_LANGUAGE: template language code (default "es"). Must match
+//   the language the template was created with in Meta.
 //
 // Deploy: supabase functions deploy send-notifications
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
@@ -18,6 +20,7 @@ const GRAPH_URL = `https://graph.facebook.com/${GRAPH_VERSION}`;
 const accessToken = Deno.env.get('WHATSAPP_ACCESS_TOKEN');
 const phoneNumberId = Deno.env.get('WHATSAPP_PHONE_NUMBER_ID');
 const templateName = Deno.env.get('WHATSAPP_TEMPLATE_NAME');
+const templateLanguage = Deno.env.get('WHATSAPP_TEMPLATE_LANGUAGE') || 'es';
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL'),
@@ -71,7 +74,7 @@ async function sendTemplate(to, params) {
       type: 'template',
       template: {
         name: templateName,
-        language: { code: 'es' },
+        language: { code: templateLanguage },
         components: [
           {
             type: 'body',
