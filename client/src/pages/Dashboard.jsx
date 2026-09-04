@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IconSunday, IconSpeakers, IconTopics, IconHistory, IconCalendar } from '../components/Icons';
+import { IconSunday, IconSpeakers, IconTopics, IconHistory, IconBoard, IconCalendar } from '../components/Icons';
 
 function Dashboard() {
   const { t, i18n } = useTranslation();
@@ -37,6 +37,12 @@ function Dashboard() {
       icon: IconHistory,
       title: t('dashboard.historyTitle'),
       desc: t('dashboard.historyDesc'),
+    },
+    {
+      to: '/tareas',
+      icon: IconBoard,
+      title: t('dashboard.tasksTitle'),
+      desc: t('dashboard.tasksDesc'),
     },
   ];
 

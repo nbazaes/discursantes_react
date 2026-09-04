@@ -8,11 +8,12 @@ import Discursantes from './pages/Discursantes';
 import SeleccionarDomingo from './pages/SeleccionarDomingo';
 import VerTemas from './pages/VerTemas';
 import Historial from './pages/Historial';
+import Kanban from './pages/Kanban';
 import { STORAGE_KEY, SUPPORTED_LANGUAGES } from './i18n';
 import { useTheme } from './lib/theme';
 import { SignInPage, SignUpPage } from './pages/AuthPage';
 import { buildUserButtonElements } from './lib/clerkAppearance';
-import { IconTree, IconSunday, IconSpeakers, IconTopics, IconHistory, IconSun, IconMoon, IconMenu, IconClose, IconWard } from './components/Icons';
+import { IconTree, IconSunday, IconSpeakers, IconTopics, IconHistory, IconBoard, IconSun, IconMoon, IconMenu, IconClose, IconWard } from './components/Icons';
 
 function WardBadge() {
   const { organization } = useOrganization();
@@ -45,6 +46,7 @@ function NavBar() {
     { to: '/seleccionar-domingo', label: t('nav.newSunday'), icon: IconSunday },
     { to: '/discursantes', label: t('nav.speakers'), icon: IconSpeakers },
     { to: '/temas', label: t('nav.topics'), icon: IconTopics },
+    { to: '/tareas', label: t('nav.tasks'), icon: IconBoard },
     { to: '/historial', label: t('nav.history'), icon: IconHistory },
   ];
 
@@ -201,6 +203,7 @@ function App() {
               <Route path="/discursantes" element={<Discursantes />} />
               <Route path="/seleccionar-domingo" element={<SeleccionarDomingo />} />
               <Route path="/temas" element={<VerTemas />} />
+              <Route path="/tareas" element={<Kanban />} />
               <Route path="/historial" element={<Historial />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />

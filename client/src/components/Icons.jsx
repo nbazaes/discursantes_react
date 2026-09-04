@@ -194,6 +194,45 @@ export function IconCalendar({ size, ...rest }) {
   );
 }
 
+export function IconBoard({ size, ...rest }) {
+  return (
+    <Svg size={size} {...rest}>
+      <rect x="4" y="4" width="5.5" height="16" rx="1.5" />
+      <rect x="13.5" y="4" width="6.5" height="10" rx="1.5" />
+      <path d="M13.5 17.5h6.5" />
+    </Svg>
+  );
+}
+
+export function IconGrip({ size, ...rest }) {
+  return (
+    <Svg size={size} {...rest}>
+      <circle cx="9" cy="7" r="1" />
+      <circle cx="15" cy="7" r="1" />
+      <circle cx="9" cy="12" r="1" />
+      <circle cx="15" cy="12" r="1" />
+      <circle cx="9" cy="17" r="1" />
+      <circle cx="15" cy="17" r="1" />
+    </Svg>
+  );
+}
+
+export function IconChevronLeft({ size, ...rest }) {
+  return (
+    <Svg size={size} {...rest}>
+      <path d="M15 5l-7 7 7 7" />
+    </Svg>
+  );
+}
+
+export function IconChevronRight({ size, ...rest }) {
+  return (
+    <Svg size={size} {...rest}>
+      <path d="M9 5l7 7-7 7" />
+    </Svg>
+  );
+}
+
 export default {
   IconTree,
   IconSunday,
@@ -213,4 +252,8 @@ export default {
   IconWard,
   IconMenu,
   IconCalendar,
+  IconBoard,
+  IconGrip,
+  IconChevronLeft,
+  IconChevronRight,
 };

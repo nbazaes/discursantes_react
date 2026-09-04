@@ -127,3 +127,42 @@ export async function deleteDiscurso(supabase, id) {
     .eq('id', id);
   if (error) throw error;
 }
+
+export async function getTareas(supabase) {
+  const { data, error } = await supabase
+    .from('tareas')
+    .select('*, discursante:discursantes(id, Nombres, Apellidos, Llamamiento)')
+    .order('posicion')
+    .order('id');
+  if (error) throw error;
+  return data;
+}
+
+export async function createTarea(supabase, data) {
+  const { data: created, error } = await supabase
+    .from('tareas')
+    .insert(data)
+    .select('*, discursante:discursantes(id, Nombres, Apellidos, Llamamiento)')
+    .single();
+  if (error) throw error;
+  return created;
+}
+
+export async function updateTarea(supabase, id, data) {
+  const { data: updated, error } = await supabase
+    .from('tareas')
+    .update(data)
+    .eq('id', id)
+    .select('*, discursante:discursantes(id, Nombres, Apellidos, Llamamiento)')
+    .single();
+  if (error) throw error;
+  return updated;
+}
+
+export async function deleteTarea(supabase, id) {
+  const { error } = await supabase
+    .from('tareas')
+    .delete()
+    .eq('id', id);
+  if (error) throw error;
+}
