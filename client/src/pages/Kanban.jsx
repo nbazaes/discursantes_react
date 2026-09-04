@@ -31,8 +31,8 @@ function KanbanCard({ tarea, onEdit, onDelete, onMove, colIndex, totalCols, asig
       <div className="kanban-card__title">{tarea.titulo}</div>
 
       <div className="kanban-card__meta">
-        {asignado ? (
-          <span className="badge badge-info">{asignado}</span>
+        {asignado(tarea) ? (
+          <span className="badge badge-info">{asignado(tarea)}</span>
         ) : (
           <span className="badge">{t('kanban.noAssignee')}</span>
         )}
